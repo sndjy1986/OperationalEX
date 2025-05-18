@@ -132,7 +132,108 @@ def system_status():
         available_trucks=available_trucks
     )
 
+@app.route("/availability", methods=["GET", "POST"])
+def availability():
+    if request.method == "POST":
+        selected = request.form.getlist("available")
+        for truck in truck_status:
+            if truck_status[truck] not in ["out", "logistics", "destination"]:
+                new_status = "available" if truck in selected else "unavailable"
+                update_status(truck, new_status)
+        return redirect(url_for("index"))
+
+    return render_template("availability.html", trucks=truck_data["trucks"], status=truck_status)
+
+
+@app.route("/dispatch", methods=["POST"])
+def dispatch():
+    try:
+        truck_id = request.form["truck_id"]
+        update_status(truck_id, "out")
+        fallback_id = None
+        for rule in truck_data.get("fallback_rules", []):
+            if rule["primary"] == truck_id:
+                for candidate in rule.get("fallbacks", []):
+                    if truck_status.get(candidate) == "available":
+                        fallback_id = candidate
+                        break
+                break
+        return render_template("result.html", dispatched=truck_id, fallback=fallback_id)
+    except Exception as e:
+        return str(e), 400
+
+@app.route("/reset/<truck_id>")
+def reset_truck(truck_id):
+    if truck_id in truck_status:
+        update_status(truck_id, "available")
+        logistics_timer.pop(truck_id, None)
+    return redirect(url_for("index"))
+
+@app.route("/logistics/<truck_id>")
+def make_logistics(truck_id):
+    update_status(truck_id, "logistics")
+    logistics_timer[truck_id] = datetime.utcnow()
+    return redirect(url_for("index"))
+
+@app.route("/destination/<truck_id>")
+def make_destination(truck_id):
+    update_status(truck_id, "destination")
+    logistics_timer[truck_id] = datetime.utcnow()
+    return redirect(url_for("index"))
+
+@app.route("/admin", methods=["GET", "POST"])
+def admin():
+    if not session.get("logged_in"):
+        if request.method == "POST" and request.form.get("password") == ADMIN_PASSWORD:
+            session["logged_in"] = True
+            return redirect("/admin")
+        return render_template("admin_login.html")
+
+    if request.method == "POST":
+        for truck in truck_data["trucks"]:
+            new_id = request.form.get(f"id_{truck['id']}")
+            if new_id and new_id != truck["id"]:
+                old_id = truck["id"]
+                truck["id"] = new_id
+                truck_status[new_id] = truck_status.pop(old_id, "available")
+                if old_id in logistics_timer:
+                    logistics_timer[new_id] = logistics_timer.pop(old_id)
+                for rule in truck_data.get("fallback_rules", []):
+                    if rule["primary"] == old_id:
+                        rule["primary"] = new_id
+                    rule["fallbacks"] = [new_id if fb == old_id else fb for fb in rule["fallbacks"]]
+
+        for truck in truck_data["trucks"]:
+            new_loc = request.form.get(f"location_{truck['id']}")
+            if new_loc:
+                truck["location"] = new_loc
+
+        new_rules = []
+        for truck in truck_data["trucks"]:
+            fb_val = request.form.get(f"fallback_{truck['id']}", "")
+            fb_list = [x.strip() for x in fb_val.split(",") if x.strip()]
+            new_rules.append({"primary": truck["id"], "fallbacks": fb_list})
+        truck_data["fallback_rules"] = new_rules
+        save_config(truck_data)
+
+    fallback_map = {rule["primary"]: ", ".join(rule["fallbacks"]) for rule in truck_data.get("fallback_rules", [])}
+    return render_template("admin.html", trucks=truck_data["trucks"], fallback_map=fallback_map)
+
 if __name__ == "__main__":
+
     load_config()
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
+
+@app.route("/availability", methods=["GET", "POST"])
+def availability():
+    if request.method == "POST":
+        selected = request.form.getlist("available")
+        for truck in truck_status:
+            if truck_status[truck] not in ["out", "logistics", "destination"]:
+                new_status = "available" if truck in selected else "unavailable"
+                update_status(truck, new_status)
+        return redirect(url_for("index"))
+
+    return render_template("availability.html", trucks=truck_data["trucks"], status=truck_status)
