@@ -1,0 +1,198 @@
+{
+    "trucks": [
+        {
+            "id": "ALPHA 5",
+            "location": "Post 5"
+        },
+        {
+            "id": "ALPHA 8",
+            "location": "Post 8"
+        },
+        {
+            "id": "MED-0",
+            "location": "Post 0"
+        },
+        {
+            "id": "MED-1",
+            "location": "Post 1"
+        },
+        {
+            "id": "MED-10",
+            "location": "Post 0"
+        },
+        {
+            "id": "MED-11",
+            "location": "Post 1"
+        },
+        {
+            "id": "MED-12",
+            "location": "Post 2"
+        },
+        {
+            "id": "MED-13",
+            "location": "Post 3"
+        },
+        {
+            "id": "MED-14",
+            "location": "Post 4"
+        },
+        {
+            "id": "MED-15",
+            "location": "Post 5"
+        },
+        {
+            "id": "MED-16",
+            "location": "Post 6"
+        },
+        {
+            "id": "MED-17",
+            "location": "Post 7"
+        },
+        {
+            "id": "MED-18",
+            "location": "Post 8"
+        },
+        {
+            "id": "MED-19",
+            "location": "Post 9"
+        },
+        {
+            "id": "MED-2",
+            "location": "Post 2"
+        },
+        {
+            "id": "MED-3",
+            "location": "Post 3"
+        },
+        {
+            "id": "MED-4",
+            "location": "Post 4"
+        },
+        {
+            "id": "MED-5",
+            "location": "Post 5"
+        },
+        {
+            "id": "MED-6",
+            "location": "Post 6"
+        },
+        {
+            "id": "MED-7",
+            "location": "Post 7"
+        },
+        {
+            "id": "MED-8",
+            "location": "Post 8"
+        },
+        {
+            "id": "MED-9",
+            "location": "Post 9"
+        },
+        {
+            "id": "MEDIC_CUSTOM_1",
+            "location": "Post 1"
+        },
+        {
+            "id": "MEDIC_CUSTOM_2",
+            "location": "Post 2"
+        }
+    ],
+    "fallback_rules": [
+        {
+            "primary": "ALPHA 5",
+            "fallbacks": []
+        },
+        {
+            "primary": "ALPHA 8",
+            "fallbacks": []
+        },
+        {
+            "primary": "MED-0",
+            "fallbacks": []
+        },
+        {
+            "primary": "MED-1",
+            "fallbacks": []
+        },
+        {
+            "primary": "MED-10",
+            "fallbacks": []
+        },
+        {
+            "primary": "MED-11",
+            "fallbacks": []
+        },
+        {
+            "primary": "MED-12",
+            "fallbacks": []
+        },
+        {
+            "primary": "MED-13",
+            "fallbacks": []
+        },
+        {
+            "primary": "MED-14",
+            "fallbacks": []
+        },
+        {
+            "primary": "MED-15",
+            "fallbacks": []
+        },
+        {
+            "primary": "MED-16",
+            "fallbacks": []
+        },
+        {
+            "primary": "MED-17",
+            "fallbacks": []
+        },
+        {
+            "primary": "MED-18",
+            "fallbacks": []
+        },
+        {
+            "primary": "MED-19",
+            "fallbacks": []
+        },
+        {
+            "primary": "MED-2",
+            "fallbacks": []
+        },
+        {
+            "primary": "MED-3",
+            "fallbacks": []
+        },
+        {
+            "primary": "MED-4",
+            "fallbacks": []
+        },
+        {
+            "primary": "MED-5",
+            "fallbacks": []
+        },
+        {
+            "primary": "MED-6",
+            "fallbacks": []
+        },
+        {
+            "primary": "MED-7",
+            "fallbacks": []
+        },
+        {
+            "primary": "MED-8",
+            "fallbacks": []
+        },
+        {
+            "primary": "MED-9",
+            "fallbacks": []
+        },
+        {
+            "primary": "MEDIC_CUSTOM_1",
+            "fallbacks": []
+        },
+        {
+            "primary": "MEDIC_CUSTOM_2",
+            "fallbacks": []
+        }
+    ]
+}

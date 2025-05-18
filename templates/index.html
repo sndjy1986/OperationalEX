@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Truck Dashboard</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+        .flash {
+            animation: flashRed 1s infinite;
+            font-weight: bold;
+        }
+        @keyframes flashRed {
+            0%   { color: inherit; }
+            50%  { color: red; }
+            100% { color: inherit; }
+        }
+        .status-available { color: green; font-weight: bold; }
+        .status-out { color: blue; font-weight: bold; }
+        .status-logistics { color: red; font-weight: bold; }
+        .status-destination { color: goldenrod; font-weight: bold; }
+        #log {
+            margin-top: 30px;
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 8px;
+            max-height: 30vh;
+            overflow-y: auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        @media (max-width: 600px) {
+            body {
+                font-size: 16px;
+            }
+            select, button {
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Dispatch Center</h1>
+
+    <!-- System Status Box -->
+    <div style="padding: 10px; background-color: #eee; color: black; font-weight: bold;
+                border: 2px solid black; border-radius: 8px; width: fit-content;
+                margin-bottom: 15px;">
+        System Status Level: {{ available_trucks }} Truck(s) Available
+    </div>
+
+    <p><a href="/availability">Manage Availability</a> |
+       <a href="/admin">Admin Console</a></p>
+
+    <form method="POST" action="/dispatch">
+        <label>Select a truck that was sent out:</label><br>
+        <select name="truck_id">
+            {% for truck in trucks %}
+                {% if status[truck.id] == "available" %}
+                    <option value="{{ truck.id }}">{{ truck.id }} - {{ truck.location }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        <button type="submit">Dispatch</button>
+    </form>
+
+    <h2>Truck Status</h2>
+    <ul>
+        {% for truck in trucks %}
+            {% if status[truck.id] != "unavailable" %}
+                <li id="truck-{{ truck.id }}">
+                    <span class="{% if truck.id in flash_trucks %}flash{% endif %}">{{ truck.id }}</span>:
+                    <span class="{% if truck.id in flash_trucks %}flash {% endif %}
+                        {% if status[truck.id] == 'available' %}status-available
+                        {% elif status[truck.id] == 'out' %}status-out
+                        {% elif status[truck.id] == 'logistics' %}status-logistics
+                        {% elif status[truck.id] == 'destination' %}status-destination
+                        {% endif %}">
+                        {{ status[truck.id] }}
+                    </span>
+
+                    {% if status[truck.id] == "logistics" or status[truck.id] == "destination" %}
+                        <span id="timer-{{ truck.id }}" data-start="{{ logistics_times[truck.id] }}"></span>
+                        {% if status[truck.id] == "logistics" %}
+                            <a href="/reset_logistics/{{ truck.id }}">[Reset]</a>
+                        {% else %}
+                            <a href="/reset_destination/{{ truck.id }}">[Reset]</a>
+                        {% endif %}
+                    {% elif status[truck.id] == "out" %}
+                        <a href="/destination/{{ truck.id }}">[Destination]</a>
+                        <a href="/reset/any/{{ truck.id }}">[Back]</a>
+                    {% elif status[truck.id] == "available" %}
+                        <a href="/logistics/{{ truck.id }}">[Logistics]</a>
+                    {% endif %}
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+    <div id="log">
+        <h3>Activity Log</h3>
+        <ul>
+            {% for entry in activity_log %}
+                <li>{{ entry }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script>
+        function updateTimers() {
+            const timerSpans = document.querySelectorAll('[id^="timer-"]');
+            const now = new Date().getTime();
+
+            timerSpans.forEach(span => {
+                const startTime = new Date(span.getAttribute("data-start")).getTime();
+                const parent = span.closest("li");
+                const statusClass = parent.querySelector("span:nth-of-type(2)").className;
+
+                let duration = 10 * 60 * 1000; // logistics default
+                if (statusClass.includes("status-destination")) {
+                    duration = 20 * 60 * 1000; // destination
+                }
+
+                const remaining = duration - (now - startTime);
+                if (remaining > 0) {
+                    const mins = Math.floor(remaining / 60000);
+                    const secs = Math.floor((remaining % 60000) / 1000);
+                    span.textContent = ` - ${mins}:${secs.toString().padStart(2, '0')} remaining`;
+                } else {
+                    span.textContent = " - Timer expired";
+                }
+            });
+        }
+
+        setInterval(updateTimers, 1000);
+        updateTimers();
+
+        // Auto-refresh every 3 minutes
+        setTimeout(() => {
+            location.reload();
+        }, 180000);
+
+        {% if show_admin_alert %}
+            alert("NOTIFY ADMIN OF SYSTEM STATUS");
+        {% endif %}
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Truck Availability Management</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        @media (max-width: 600px) {
+            body {
+                font-size: 16px;
+            }
+            button {
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Manage Truck Availability</h1>
+    <form method="POST">
+        <ul>
+            {% for truck in trucks %}
+                {% if status[truck.id] not in ["out", "logistics"] %}
+                    <li>
+                        <label>
+                            <input type="checkbox" name="available" value="{{ truck.id }}"
+                                {% if status[truck.id] == "available" %}checked{% endif %}>
+                            {{ truck.id }} ({{ truck.location }})
+                        </label>
+                    </li>
+                {% else %}
+                    <li>
+                        {{ truck.id }} ({{ truck.location }}) is currently
+                        "<strong>{{ status[truck.id] }}</strong>" — cannot update.
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        <button type="submit">Save Changes</button>
+    </form>
+    <p><a href="/">← Back to Dashboard</a></p>
+</body>
+</html>
