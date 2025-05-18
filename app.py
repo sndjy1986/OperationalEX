@@ -134,15 +134,11 @@ def dispatch():
     except Exception as e:
         return str(e), 400
 
-@app.route("/reset/<mode>/<truck_id>")
-def reset_mode(mode, truck_id):
-    known_ids = [truck["id"] for truck in truck_data["trucks"]]
-    if truck_id in known_ids:
-        truck_status[truck_id] = "available"
+@app.route("/reset/<truck_id>")
+def reset_truck(truck_id):
+    if truck_id in truck_status:
+        update_status(truck_id, "available")
         logistics_timer.pop(truck_id, None)
-        log_action(truck_id, "available")
-    else:
-        print(f"Truck ID '{truck_id}' not found in configuration.")
     return redirect(url_for("index"))
 
 @app.route("/logistics/<truck_id>")

@@ -90,7 +90,7 @@
                         {% endif %}
                     {% elif status[truck.id] == "out" %}
                         <a href="/destination/{{ truck.id }}">[Destination]</a>
-                        <a href="/reset/any/{{ truck.id }}">[Back]</a>
+                        <a href="/reset/{{ truck.id }}">[Back]</a>
                     {% elif status[truck.id] == "available" %}
                         <a href="/logistics/{{ truck.id }}">[Logistics]</a>
                     {% endif %}
