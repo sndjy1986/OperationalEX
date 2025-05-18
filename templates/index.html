@@ -47,7 +47,8 @@
     <!-- System Status Box -->
     <div style="padding: 10px; background-color: #eee; color: black; font-weight: bold;
                 border: 2px solid black; border-radius: 8px; width: fit-content;
-                margin-bottom: 15px;">
+                margin-bottom: 15px;"
+     class="{% if available_trucks < 3 %}blink-red{% endif %}">
         System Status Level: {{ available_trucks }} Truck(s) Available
     </div>
 
