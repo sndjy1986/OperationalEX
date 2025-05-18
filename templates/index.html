@@ -16,6 +16,19 @@
     0%, 100% { color: red; }
     50% { color: white; }
 }
+.fuel-timer {
+    margin-left: 10px;
+    font-size: 0.9em;
+}
+.fuel-expired {
+    animation: flashRedFuel 1s infinite;
+    color: red;
+    font-weight: bold;
+}
+@keyframes flashRedFuel {
+    0%, 100% { color: red; }
+    50% { color: white; }
+}
 
 
 /* Dark mode styles */
@@ -96,7 +109,7 @@ body.dark-mode {
         {% for truck in trucks %}
             {% if status[truck.id] != "unavailable" %}
                 <li id="truck-{{ truck.id }}">
-                    <span class="{% if truck.id in flash_trucks %}flash{% endif %}">{{ truck.id }}</span>:
+                    <span class="{% if truck.id in flash_trucks %}flash{% endif %}">{{ truck.id }}</span> <span id="fuel-{{ truck.id }}" class="fuel-timer"></span>:
                     <span class="{% if truck.id in flash_trucks %}flash {% endif %}
                         {% if status[truck.id] == 'available' %}status-available
                         {% elif status[truck.id] == 'out' %}status-out
@@ -207,6 +220,37 @@ function updateFuelTimers() {
             const min = Math.floor(remaining / 60000);
             const sec = Math.floor((remaining % 60000) / 1000);
             el.textContent = ` ⛽ ${min}:${sec.toString().padStart(2, "0")}`;
+        }
+    }
+    setTimeout(updateFuelTimers, 1000);
+}
+
+updateFuelTimers();
+const fuelTimers = {};
+
+function startFuelTimer(truckId) {
+    const el = document.getElementById("fuel-" + truckId);
+    if (!el) return;
+    const endTime = Date.now() + 10 * 60 * 1000;  // 10 minutes
+    fuelTimers[truckId] = endTime;
+    updateFuelTimers();
+}
+
+function updateFuelTimers() {
+    const now = Date.now();
+    for (const [truckId, endTime] of Object.entries(fuelTimers)) {
+        const el = document.getElementById("fuel-" + truckId);
+        const titleEl = el?.closest("li")?.querySelector("span");
+        if (!el || !titleEl) continue;
+
+        const remaining = endTime - now;
+        if (remaining <= 0) {
+            el.textContent = "⛽ expired";
+            titleEl.classList.add("fuel-expired");
+        } else {
+            const min = Math.floor(remaining / 60000);
+            const sec = Math.floor((remaining % 60000) / 1000);
+            el.textContent = `⛽ ${min}:${sec.toString().padStart(2, "0")}`;
         }
     }
     setTimeout(updateFuelTimers, 1000);
