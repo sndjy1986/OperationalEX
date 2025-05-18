@@ -29,6 +29,19 @@
     0%, 100% { color: red; }
     50% { color: white; }
 }
+.fuel-timer {
+    margin-left: 10px;
+    font-size: 0.9em;
+}
+.fuel-expired {
+    animation: flashRedFuel 1s infinite;
+    color: red;
+    font-weight: bold;
+}
+@keyframes flashRedFuel {
+    0%, 100% { color: red; }
+    50% { color: white; }
+}
 
 
 /* Dark mode styles */
@@ -106,44 +119,48 @@ body.dark-mode {
 
     <h2>Truck Status</h2>
     <ul>
-        {% for truck in trucks %}
-            {% if status[truck.id] != "unavailable" %}
-                <li id="truck-{{ truck.id }}">
-                    <span class="{% if truck.id in flash_trucks %}flash{% endif %}">{{ truck.id }}</span> <span id="fuel-{{ truck.id }}" class="fuel-timer"></span>:
-                    <span class="{% if truck.id in flash_trucks %}flash {% endif %}
-                        {% if status[truck.id] == 'available' %}status-available
-                        {% elif status[truck.id] == 'out' %}status-out
-                        {% elif status[truck.id] == 'logistics' %}status-logistics
-                        {% elif status[truck.id] == 'destination' %}status-destination
-                        {% endif %}">
-                        {{ status[truck.id] }}
-                    </span>
-
-                    {% if status[truck.id] == "logistics" or status[truck.id] == "destination" %}
-                        <span id="timer-{{ truck.id }}" data-start="{{ logistics_times[truck.id] }}"></span>
-                        {% if status[truck.id] == "logistics" %}
-                            <a href="/reset/{{ truck.id }}">[Reset]</a>
-                        {% else %}
-                            <a href="/reset/{{ truck.id }}">[Reset]</a>
-                        {% endif %}
-                    {% elif status[truck.id] == "out" %}
-                        <a href="/destination/{{ truck.id }}">[Destination]</a>
-                        <a href="/reset/{{ truck.id }}">[Back]</a>
-                    {% elif status[truck.id] == "available" %}
-                        <a href="/logistics/{{ truck.id }}">[Logistics]</a>
-                    {% endif %}
-                </li>
-            {% endif %}
-        {% endfor %}
-    </ul>
+{% for truck in trucks %}
+    <li class="truck status-{{ status[truck.id] }}">
+        {% if status[truck.id] == 'available' and status[truck.id] != 'logistics' %}
+            <a href="#" onclick="startFuelTimer('{{ truck.id }}')" style="margin-right: 5px;">⛽</a>
+        {% endif %}
+        <span>{{ truck.id }}</span>
+        <span id="fuel-{{ truck.id }}" class="fuel-timer"></span>
+        {% if truck.id in flash_trucks %}
+            <span class="flash">!</span>
+        {% endif %}
+        {% if status[truck.id] in ["logistics", "destination"] %}
+            <span id="logistics-{{ truck.id }}"></span>
+        {% endif %}
+        <a href="/logistics/{{ truck.id }}">[Logistics]</a>
+        <a href="/destination/{{ truck.id }}">[Destination]</a>
+        <a href="/reset/{{ truck.id }}">[Back]</a>
+    </li>
+{% endfor %}
+</ul>
 
     <div id="log">
         <h3>Activity Log</h3>
         <ul>
-            {% for entry in activity_log %}
-                <li>{{ entry }}</li>
-            {% endfor %}
-        </ul>
+{% for truck in trucks %}
+    <li class="truck status-{{ status[truck.id] }}">
+        {% if status[truck.id] == 'available' and status[truck.id] != 'logistics' %}
+            <a href="#" onclick="startFuelTimer('{{ truck.id }}')" style="margin-right: 5px;">⛽</a>
+        {% endif %}
+        <span>{{ truck.id }}</span>
+        <span id="fuel-{{ truck.id }}" class="fuel-timer"></span>
+        {% if truck.id in flash_trucks %}
+            <span class="flash">!</span>
+        {% endif %}
+        {% if status[truck.id] in ["logistics", "destination"] %}
+            <span id="logistics-{{ truck.id }}"></span>
+        {% endif %}
+        <a href="/logistics/{{ truck.id }}">[Logistics]</a>
+        <a href="/destination/{{ truck.id }}">[Destination]</a>
+        <a href="/reset/{{ truck.id }}">[Back]</a>
+    </li>
+{% endfor %}
+</ul>
     </div>
 
     <script>
@@ -220,6 +237,37 @@ function updateFuelTimers() {
             const min = Math.floor(remaining / 60000);
             const sec = Math.floor((remaining % 60000) / 1000);
             el.textContent = ` ⛽ ${min}:${sec.toString().padStart(2, "0")}`;
+        }
+    }
+    setTimeout(updateFuelTimers, 1000);
+}
+
+updateFuelTimers();
+const fuelTimers = {};
+
+function startFuelTimer(truckId) {
+    const el = document.getElementById("fuel-" + truckId);
+    if (!el) return;
+    const endTime = Date.now() + 10 * 60 * 1000;  // 10 minutes
+    fuelTimers[truckId] = endTime;
+    updateFuelTimers();
+}
+
+function updateFuelTimers() {
+    const now = Date.now();
+    for (const [truckId, endTime] of Object.entries(fuelTimers)) {
+        const el = document.getElementById("fuel-" + truckId);
+        const titleEl = el?.closest("li")?.querySelector("span");
+        if (!el || !titleEl) continue;
+
+        const remaining = endTime - now;
+        if (remaining <= 0) {
+            el.textContent = "⛽ expired";
+            titleEl.classList.add("fuel-expired");
+        } else {
+            const min = Math.floor(remaining / 60000);
+            const sec = Math.floor((remaining % 60000) / 1000);
+            el.textContent = `⛽ ${min}:${sec.toString().padStart(2, "0")}`;
         }
     }
     setTimeout(updateFuelTimers, 1000);
