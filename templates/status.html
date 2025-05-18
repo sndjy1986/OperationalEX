@@ -57,9 +57,19 @@
     SYSTEM STATUS LEVEL: {{ available_trucks }} TRUCK(S) AVAILABLE
 </div>
 
+{% set only_avail = request.args.get("only") == "available" %}
+
+<p style="text-align:center; margin-bottom:10px;">
+    {% if only_avail %}
+        <a href="/status">Show All Checked-In Trucks</a>
+    {% else %}
+        <a href="/status?only=available">Show Only Available Trucks</a>
+    {% endif %}
+</p>
+
 <ul>
-    {% for truck in trucks %}
-    {% if status[truck.id] != 'unavailable' %}
+{% for truck in trucks %}
+    {% if status[truck.id] != 'unavailable' and (not only_avail or status[truck.id] == 'available') %}
     <li class="status-{{ status[truck.id] }}">{{ truck.id }} — {{ status[truck.id]|capitalize }}</li>
     {% endif %}
 {% endfor %}
