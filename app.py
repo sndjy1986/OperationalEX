@@ -112,7 +112,9 @@ def index():
                     flash_trucks[truck_id] = True
 
     available_trucks = sum(
-        1 for tid, status in truck_status.items()
+    1 for tid, status in truck_status.items()
+    if status == "available" and tid.startswith("Medic ")
+)
         if status == "available" and tid in [t["id"] for t in truck_data["trucks"]]
     )
     show_admin_alert = available_trucks <= 3
