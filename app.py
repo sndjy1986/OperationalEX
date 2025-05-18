@@ -18,6 +18,7 @@ logistics_timer = {}
 activity_log = []
 
 
+
 def load_config():
     global truck_data, truck_status
     with open(CONFIG_PATH) as f:
@@ -31,38 +32,19 @@ def load_config():
         "MEDIC_CUSTOM_1": "Custom Location 1",
         "MEDIC_CUSTOM_2": "Custom Location 2"
     }
-
     for cid, loc in custom_defaults.items():
         if cid not in [t["id"] for t in truck_data["trucks"]]:
             truck_data["trucks"].append({"id": cid, "location": loc})
 
-    # Initialize default visible trucks
-    default_visible = {
-        "ALPHA 5", "ALPHA 8", "MED-0", "MED-1", "MED-2", "MED-3", "MED-4",
-        "MED-5", "MED-6", "MED-7", "MED-8", "MED-9", "MED-13", "MED-14", "MED-15",
-        "MED-16", "MED-17", "MED-18"
-    }
-
-    truck_status = {}
+    # Initialize truck status based on default visibility
+    truck_status.clear()
     for truck in truck_data["trucks"]:
-        if truck["id"] in default_visible:
-            truck_status[truck["id"]] = "available"
+        truck_id = truck["id"]
+        if truck_id in {'Medic 9', 'Medic 13', 'Medic 8', 'Medic 6', 'Alpha 5', 'Medic 1', 'Medic 15', 'Medic 14', 'Alpha 8', 'Medic 16', 'Medic 0', 'Medic 4', 'Medic 7', 'Medic 5', 'Medic 3', 'Medic 17', 'Medic 18', 'Medic 2'}:
+            truck_status[truck_id] = "available"
         else:
-            truck_status[truck["id"]] = "unavailable"
-    for truck in truck_data["trucks"]:
-        if truck["id"] in ["ALPHA 5", "ALPHA 8", "MED-0", "MED-2", "MED-3", "MED-4", "MED-5", "MED-6", "MED-7", "MED-8", "MED-9", "MED-13", "MED-14", "MED-15", "MED-16", "MED-17"]:
-            truck_status[truck["id"]] = "available"
-        else:
-            truck_status[truck["id"]] = "unavailable"
+            truck_status[truck_id] = "unavailable"
 
-    # Ensure custom editable trucks always exist
-    custom_ids = {"MEDIC_CUSTOM_1", "MEDIC_CUSTOM_2"}
-    existing_ids = {t["id"] for t in truck_data["trucks"]}
-    for cid in custom_ids - existing_ids:
-        truck_data["trucks"].append({"id": cid, "location": f"Custom Location {cid[-1]}"})
-        truck_status[cid] = "available"
-
-    
 
 def save_config(config):
     with open(CONFIG_PATH, "w") as f:
