@@ -3,6 +3,13 @@
 <head>
     <title>Medshore Dispatch Dashboard</title>
     <style>
+.flash-row {
+    animation: flashRedRow 1s infinite;
+}
+@keyframes flashRedRow {
+    0%, 100% { background-color: transparent; }
+    50% { background-color: red; color: white; }
+}
 .status-available {
     color: green;
     font-weight: bold;
@@ -161,7 +168,10 @@ body.dark-mode {
                     span.textContent = ` - ${mins}:${secs.toString().padStart(2, '0')} remaining`;
                 } else {
                     if (remaining <= 0) {
-                    span.textContent = " - Timer expired";
+                    
+    span.textContent = "";
+    parent.classList.add("flash-row");
+    
                     const nameSpan = parent.querySelector("span:first-of-type");
                     if (nameSpan) {
                         nameSpan.classList.add("flash-red");
