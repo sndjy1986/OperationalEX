@@ -41,7 +41,11 @@ def load_config():
     for truck in truck_data["trucks"]:
         truck_id = truck["id"]
         if truck_id in {'Medic 9', 'Medic 13', 'Medic 8', 'Medic 6', 'Medic 1', 'Medic 15', 'Medic 14', 'Medic 16', 'Medic 0', 'Medic 4', 'Medic 7', 'Medic 5', 'Medic 3', 'Medic 17', 'Medic 18', 'Medic 2'}:
-            truck_status[truck_id] = "available"
+            truck_status[truck_id] = "available" if truck_id.startswith("Medic ") and truck_id in {
+        "Medic 0", "Medic 1", "Medic 2", "Medic 3", "Medic 4",
+        "Medic 5", "Medic 6", "Medic 7", "Medic 8", "Medic 9",
+        "Medic 13", "Medic 14", "Medic 15", "Medic 16", "Medic 17", "Medic 18"
+    } else "unavailable"
         else:
             truck_status[truck_id] = "unavailable"
 
