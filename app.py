@@ -36,8 +36,19 @@ def load_config():
         if cid not in [t["id"] for t in truck_data["trucks"]]:
             truck_data["trucks"].append({"id": cid, "location": loc})
 
-    # Initialize truck_status: all trucks unavailable by default
+    # Initialize default visible trucks
+    default_visible = {
+        "ALPHA 5", "ALPHA 8", "MED-0", "MED-1", "MED-2", "MED-3", "MED-4",
+        "MED-5", "MED-6", "MED-7", "MED-8", "MED-9", "MED-13", "MED-14", "MED-15",
+        "MED-16", "MED-17", "MED-18"
+    }
+
     truck_status = {}
+    for truck in truck_data["trucks"]:
+        if truck["id"] in default_visible:
+            truck_status[truck["id"]] = "available"
+        else:
+            truck_status[truck["id"]] = "unavailable"
     for truck in truck_data["trucks"]:
         if truck["id"] in ["ALPHA 5", "ALPHA 8", "MED-0", "MED-2", "MED-3", "MED-4", "MED-5", "MED-6", "MED-7", "MED-8", "MED-9", "MED-13", "MED-14", "MED-15", "MED-16", "MED-17"]:
             truck_status[truck["id"]] = "available"
