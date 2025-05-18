@@ -19,6 +19,7 @@ activity_log = []
 
 
 
+
 def load_config():
     global truck_data, truck_status
     with open(CONFIG_PATH) as f:
@@ -36,11 +37,10 @@ def load_config():
         if cid not in [t["id"] for t in truck_data["trucks"]]:
             truck_data["trucks"].append({"id": cid, "location": loc})
 
-    # Initialize truck status based on default visibility
     truck_status.clear()
     for truck in truck_data["trucks"]:
         truck_id = truck["id"]
-        if truck_id in {'Medic 9', 'Medic 13', 'Medic 8', 'Medic 6', 'Alpha 5', 'Medic 1', 'Medic 15', 'Medic 14', 'Alpha 8', 'Medic 16', 'Medic 0', 'Medic 4', 'Medic 7', 'Medic 5', 'Medic 3', 'Medic 17', 'Medic 18', 'Medic 2'}:
+        if truck_id in {'Medic 9', 'Medic 13', 'Medic 8', 'Medic 6', 'Medic 1', 'Medic 15', 'Medic 14', 'Medic 16', 'Medic 0', 'Medic 4', 'Medic 7', 'Medic 5', 'Medic 3', 'Medic 17', 'Medic 18', 'Medic 2'}:
             truck_status[truck_id] = "available"
         else:
             truck_status[truck_id] = "unavailable"
@@ -81,6 +81,13 @@ def log_action(truck_id, new_status):
     with open(LOG_PATH, "w") as f:
         for line in entries:
             f.write(line + "\n")
+
+
+    MEDIC_PRIMARY = {
+        "Medic 0", "Medic 1", "Medic 2", "Medic 3", "Medic 4",
+        "Medic 5", "Medic 6", "Medic 7", "Medic 8", "Medic 9",
+        "Medic 13", "Medic 14", "Medic 15", "Medic 16", "Medic 17", "Medic 18"
+    }
 
 @app.route("/")
 def index():
