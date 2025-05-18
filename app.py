@@ -93,23 +93,28 @@ def index():
             start_time = logistics_timer.get(truck_id)
             if start_time:
                 logistics_times[truck_id] = start_time.strftime("%Y-%m-%dT%H:%M:%SZ")
-                if (status == "logistics" and now - start_time >= timedelta(minutes=10)) or                    (status == "destination" and now - start_time >= timedelta(minutes=20)):
+                if (
+                    status == "logistics" and now - start_time >= timedelta(minutes=10)
+                ) or (
+                    status == "destination" and now - start_time >= timedelta(minutes=20)
+                ):
                     flash_trucks[truck_id] = True
 
     available_trucks = sum(
-        1 for truck in truck_data["trucks"]
-        if truck["id"].startswith("MED") and truck_status.get(truck["id"]) == "available"
+        1 for tid, status in truck_status.items()
+        if status == "available" and tid in [t["id"] for t in truck_data["trucks"]]
     )
     show_admin_alert = available_trucks <= 3
 
     return render_template("index.html",
-                           trucks=truck_data["trucks"],
-                           status=truck_status,
-                           flash_trucks=flash_trucks,
-                           logistics_times=logistics_times,
-                           activity_log=activity_log,
-                           show_admin_alert=show_admin_alert,
-                           available_trucks=available_trucks)
+        trucks=truck_data["trucks"],
+        status=truck_status,
+        flash_trucks=flash_trucks,
+        logistics_times=logistics_times,
+        activity_log=activity_log,
+        show_admin_alert=show_admin_alert,
+        available_trucks=available_trucks
+    )
 
 @app.route("/dispatch", methods=["POST"])
 def dispatch():
