@@ -227,3 +227,15 @@ if __name__ == "__main__":
     load_config()
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
+@app.route("/status")
+def system_status():
+    available_trucks = sum(
+        1 for tid, s in truck_status.items()
+        if s == "available" and tid.startswith("Medic ")
+    )
+    return render_template("status.html",
+        trucks=truck_data["trucks"],
+        status=truck_status,
+        available_trucks=available_trucks
+    )

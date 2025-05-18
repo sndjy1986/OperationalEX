@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>System Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .status-box {
+            padding: 10px;
+            background-color: #eee;
+            color: black;
+            font-weight: bold;
+            border: 2px solid black;
+            border-radius: 8px;
+            width: fit-content;
+            margin-bottom: 20px;
+        }
+        .blink-red {
+            animation: blinkRedBg 1s infinite;
+        }
+        @keyframes blinkRedBg {
+            0%, 100% { background-color: #eee; color: black; }
+            50% { background-color: red; color: white; }
+        }
+        .status-available {
+            color: green;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .status-logistics {
+            color: red;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .status-destination {
+            color: orange;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .status-out {
+            color: blue;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+<h2>System Status</h2>
+
+<div class="status-box {% if available_trucks <= 3 %}blink-red{% endif %}">
+    SYSTEM STATUS LEVEL: {{ available_trucks }} TRUCK(S) AVAILABLE
+</div>
+
+<ul>
+    {% for truck in trucks %}
+    <li class="status-{{ status[truck.id] }}">{{ truck.id }} — {{ status[truck.id]|capitalize }}</li>
+    {% endfor %}
+</ul>
+
+
+
+</body>
+</html>
