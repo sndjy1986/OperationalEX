@@ -111,17 +111,12 @@ def index():
                 ):
                     flash_trucks[truck_id] = True
 
-        if status == "available" and tid.startswith("Medic ")
-)
-    if status == "available" and tid.startswith("Medic ")
-)
-        if status == "available" and tid in [t["id"] for t in truck_data["trucks"]]
-    )
     available_trucks = sum(
-    1 for tid, status in truck_status.items()
-    if status == "available" and tid.startswith("Medic ")
-)
-show_admin_alert = available_trucks <= 3
+        1 for tid, status in truck_status.items()
+        if status == "available" and tid.startswith("Medic ")
+    )
+
+    show_admin_alert = available_trucks <= 3
 
     return render_template("index.html",
         trucks=truck_data["trucks"],
