@@ -58,8 +58,10 @@
 
 <ul>
     {% for truck in trucks %}
+    {% if status[truck.id] == 'available' %}
     <li class="status-{{ status[truck.id] }}">{{ truck.id }} — {{ status[truck.id]|capitalize }}</li>
-    {% endfor %}
+    {% endif %}
+{% endfor %}
 </ul>
 
 
