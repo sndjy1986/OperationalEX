@@ -58,6 +58,7 @@ def save_config(config):
         json.dump(config, f, indent=4)
 
 def update_status(truck_id, new_status):
+    print(f"Setting {truck_id} to {new_status}")
     truck_status[truck_id] = new_status
     if new_status == "available":
         logistics_timer.pop(truck_id, None)
@@ -136,9 +137,16 @@ def dispatch():
 
 @app.route("/reset/<truck_id>")
 def reset_truck(truck_id):
+    print(f"Attempting to reset truck: {truck_id}")
+    print("Known truck IDs:", list(truck_status.keys()))
+
     if truck_id in truck_status:
         update_status(truck_id, "available")
         logistics_timer.pop(truck_id, None)
+        print(f"{truck_id} reset to available")
+    else:
+        print(f"Truck ID {truck_id} not found in status map.")
+
     return redirect(url_for("index"))
 
 @app.route("/logistics/<truck_id>")
