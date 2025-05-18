@@ -1,54 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Truck Dashboard</title>
+    <title>Medshore Dispatch Dashboard</title>
     <style>
-        body {
-            font-family: sans-serif;
-            margin: 20px;
-        }
-        .flash {
-            animation: flashRed 1s infinite;
-            font-weight: bold;
-        }
-        @keyframes flashRed {
-            0%   { color: inherit; }
-            50%  { color: red; }
-            100% { color: inherit; }
-        }
-        .status-available { color: green; font-weight: bold; }
-        .status-out { color: blue; font-weight: bold; }
-        .status-logistics { color: red; font-weight: bold; }
-        .status-destination { color: goldenrod; font-weight: bold; }
-        #log {
-            margin-top: 30px;
-            background: #f5f5f5;
-            padding: 10px;
-            border-radius: 8px;
-            max-height: 30vh;
-            overflow-y: auto;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        @media (max-width: 600px) {
-            body {
-                font-size: 16px;
-            }
-            select, button {
-                width: 100%;
-                margin-top: 10px;
-            }
-        }
-    </style>
+.fuel-timer {
+    margin-left: 10px;
+    font-size: 0.9em;
+}
+.fuel-expired {
+    animation: flashRedFuel 1s infinite;
+    color: red;
+    font-weight: bold;
+}
+@keyframes flashRedFuel {
+    0%, 100% { color: red; }
+    50% { color: white; }
+}
+
+
+/* Dark mode styles */
+body.dark-mode {
+    background-color: #1e1e1e;
+    color: #f0f0f0;
+}
+.dark-mode .status-box {
+    background-color: #444;
+    color: #fff;
+    border-color: #888;
+}
+.dark-mode #log {
+    background-color: #444;
+    color: #f0f0f0;
+}
+
+
+.status-box {
+    padding: 10px;
+    background-color: #ccc;
+    color: black;
+    font-weight: bold;
+    border: 2px solid black;
+    border-radius: 8px;
+    width: fit-content;
+    margin-bottom: 15px;
+}
+.blink-red {
+    animation: blinkRedBg 1s infinite;
+}
+@keyframes blinkRedBg {
+    0%, 100% { background-color: #ccc; color: black; }
+    50% { background-color: red; color: white; }
+}
+#log {
+    background-color: #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    max-height: 30vh;
+    overflow-y: auto;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 30px;
+}
+</style>
 </head>
 <body>
+
+<div style="position: absolute; top: 10px; right: 20px;">
+    <a href="#" onclick="toggleDarkMode()">Toggle Dark Mode</a>
+</div>
+
     <h1>Dispatch Center</h1>
 
     <!-- System Status Box -->
-    <div style="padding: 10px; background-color: #eee; color: black; font-weight: bold;
-                border: 2px solid black; border-radius: 8px; width: fit-content;
-                margin-bottom: 15px;"
-     class="{% if available_trucks < 3 %}blink-red{% endif %}">
+    <div class="status-box {% if available_trucks <= 3 %}blink-red{% endif %}">
         System Status Level: {{ available_trucks }} Truck(s) Available
     </div>
 
@@ -121,7 +145,7 @@
 
                 let duration = 10 * 60 * 1000; // logistics default
                 if (statusClass.includes("status-destination")) {
-                    duration = 20 * 60 * 1000; // destination
+                    duration = 20 * 60 * 1000; // destination (20 minutes)
                 }
 
                 const remaining = duration - (now - startTime);
@@ -130,7 +154,13 @@
                     const secs = Math.floor((remaining % 60000) / 1000);
                     span.textContent = ` - ${mins}:${secs.toString().padStart(2, '0')} remaining`;
                 } else {
+                    if (remaining <= 0) {
                     span.textContent = " - Timer expired";
+                    const nameSpan = parent.querySelector("span:first-of-type");
+                    if (nameSpan) {
+                        nameSpan.classList.add("flash-red");
+                    }
+                }
                 }
             });
         }
@@ -146,6 +176,43 @@
         {% if show_admin_alert %}
             alert("NOTIFY ADMIN OF SYSTEM STATUS");
         {% endif %}
-    </script>
+    
+function toggleDarkMode() {
+    document.body.classList.toggle("dark-mode");
+}
+
+const fuelTimers = {};
+
+function startFuelTimer(truckId) {
+    const el = document.getElementById("fuel-" + truckId);
+    if (!el) return;
+    const duration = 10 * 60 * 1000;
+    const endTime = Date.now() + duration;
+    fuelTimers[truckId] = endTime;
+    updateFuelTimers();
+}
+
+function updateFuelTimers() {
+    const now = Date.now();
+    for (const [truckId, endTime] of Object.entries(fuelTimers)) {
+        const el = document.getElementById("fuel-" + truckId);
+        const titleEl = el?.parentElement?.querySelector("span");
+        if (!el || !titleEl) continue;
+
+        const remaining = endTime - now;
+        if (remaining <= 0) {
+            el.textContent = " ⛽ Fuel expired";
+            titleEl.classList.add("fuel-expired");
+        } else {
+            const min = Math.floor(remaining / 60000);
+            const sec = Math.floor((remaining % 60000) / 1000);
+            el.textContent = ` ⛽ ${min}:${sec.toString().padStart(2, "0")}`;
+        }
+    }
+    setTimeout(updateFuelTimers, 1000);
+}
+
+updateFuelTimers();
+</script>
 </body>
 </html>
