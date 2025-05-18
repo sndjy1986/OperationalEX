@@ -84,9 +84,9 @@
                     {% if status[truck.id] == "logistics" or status[truck.id] == "destination" %}
                         <span id="timer-{{ truck.id }}" data-start="{{ logistics_times[truck.id] }}"></span>
                         {% if status[truck.id] == "logistics" %}
-                            <a href="/reset_logistics/{{ truck.id }}">[Reset]</a>
+                            <a href="/reset/{{ truck.id }}">[Reset]</a>
                         {% else %}
-                            <a href="/reset_destination/{{ truck.id }}">[Reset]</a>
+                            <a href="/reset/{{ truck.id }}">[Reset]</a>
                         {% endif %}
                     {% elif status[truck.id] == "out" %}
                         <a href="/destination/{{ truck.id }}">[Destination]</a>
