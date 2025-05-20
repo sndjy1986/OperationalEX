@@ -78,5 +78,29 @@
 
 
 
+
+<script>
+const flashTrucks = {{ flash_trucks|tojson }};
+const logisticsTimes = {{ logistics_times|tojson }};
+function updateLogisticsTimers() {
+    const now = new Date();
+    for (const [truckId, iso] of Object.entries(logisticsTimes)) {
+        const el = document.getElementById("timer-" + truckId);
+        const li = el?.closest("li");
+        if (!el || !li) continue;
+        const start = new Date(iso);
+        const diff = Math.floor((now - start) / 1000);
+        const min = Math.floor(diff / 60);
+        const sec = diff % 60;
+        el.textContent = "Timer: " + min + ":" + sec.toString().padStart(2, '0');
+        if (flashTrucks[truckId]) {
+            li.classList.add("flash-row");
+        }
+    }
+}
+setInterval(updateLogisticsTimers, 1000);
+updateLogisticsTimers();
+</script>
 </body>
+
 </html>
