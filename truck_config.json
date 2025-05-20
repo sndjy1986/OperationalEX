@@ -1,20 +1,378 @@
 {
-  "trucks": [
-    {
-      "id": "Medic 0",
-      "location": "Station 0"
-    },
-    {
-      "id": "Medic 1",
-      "location": "Station 1"
-    },
-    {
-      "id": "Medic 2",
-      "location": "Station 2"
-    },
-    {
-      "id": "Medic 3",
-      "location": "Station 3"
-    }
-  ]
+    "trucks": [
+         {
+            "id": "Alpha 5",
+            "location": "Centerville"
+        },
+         {
+            "id": "Alpha 8",
+            "location": "City // HQ"
+        },
+        {
+            "id": "Medic 0",
+            "location": "City // HQ"
+        },
+        {
+            "id": "Medic 1",
+            "location": "City // HQ"
+        },
+        {
+            "id": "Medic 2",
+            "location": "Rock Springs"
+        },
+        {
+            "id": "Medic 3",
+            "location": "Homeland Park"
+        },
+        {
+            "id": "Medic 4",
+            "location": "Williamston"
+        },
+        {
+            "id": "Medic 5",
+            "location": "Hopewell"
+        },
+        {
+            "id": "Medic 6",
+            "location": "Iva"
+        },
+        {
+            "id": "Medic 7",
+            "location": "Pendleton"
+        },
+        {
+            "id": "Medic 8",
+            "location": "Townville"
+        },
+        {
+            "id": "Medic 9",
+            "location": "Centerville"
+        },
+        {
+            "id": "Medic 10",
+            "location": "Station M10"
+        },
+        {
+            "id": "Medic 11",
+            "location": "Station M11"
+        },
+        {
+            "id": "Medic 12",
+            "location": "City // HQ"
+        },
+        {
+            "id": "Medic 13",
+            "location": "Honea Path"
+        },
+        {
+            "id": "Medic 14",
+            "location": "Powdersville"
+        },
+        {
+            "id": "Medic 15",
+            "location": "Wren"
+        },
+        {
+            "id": "Medic 16",
+            "location": "Williamston"
+        },
+        {
+            "id": "Medic 17",
+            "location": "City // HQ"
+        },
+        {
+            "id": "Medic 18",
+            "location": "City // HQ"
+        },
+        {
+            "id": "Medic 19",
+            "location": "Station M19"
+        },
+        {
+            "id": "Medic A-20",
+            "location": "Station M20"
+        },
+        {
+            "id": "ALS 2",
+            "location": "Station A2"
+        },
+        {
+            "id": "ALS 3",
+            "location": "Station A3"
+        },
+        {
+            "id": "ALS 4",
+            "location": "Station A4"
+        },
+        {
+            "id": "ALS 6",
+            "location": "Station A6"
+        },
+        {
+            "id": "ALS 7",
+            "location": "Station A7"
+        },
+        {
+            "id": "ALS 11",
+            "location": "Station A11"
+        },
+        {
+            "id": "ALS 12",
+            "location": "Station A12"
+        },
+        {
+            "id": "ALS 17",
+            "location": "Station A17"
+        },
+        {
+            "id": "ALS 19",
+            "location": "Station A19"
+        },
+        {
+            "id": "ALS 21",
+            "location": "Station A20"
+        }
+    ],
+    "fallback_rules": [
+        {
+            "primary": "Medic 1",
+            "fallbacks": [
+                "Medic 2"
+            ]
+        },
+        {
+            "primary": "Medic 2",
+            "fallbacks": [
+                "Medic 3"
+            ]
+        },
+        {
+            "primary": "Medic 3",
+            "fallbacks": [
+                "Medic 4"
+            ]
+        },
+        {
+            "primary": "Medic 4",
+            "fallbacks": [
+                "Medic 5"
+            ]
+        },
+        {
+            "primary": "Medic 5",
+            "fallbacks": [
+                "Medic 6"
+            ]
+        },
+        {
+            "primary": "Medic 6",
+            "fallbacks": [
+                "Medic 7"
+            ]
+        },
+        {
+            "primary": "Medic 7",
+            "fallbacks": [
+                "Medic 8"
+            ]
+        },
+        {
+            "primary": "Medic 8",
+            "fallbacks": [
+                "Medic 9"
+            ]
+        },
+        {
+            "primary": "Medic 9",
+            "fallbacks": [
+                "Medic 10"
+            ]
+        },
+        {
+            "primary": "Medic 10",
+            "fallbacks": [
+                "Medic 11"
+            ]
+        },
+        {
+            "primary": "Medic 11",
+            "fallbacks": [
+                "Medic 12"
+            ]
+        },
+        {
+            "primary": "Medic 12",
+            "fallbacks": [
+                "Medic 13"
+            ]
+        },
+        {
+            "primary": "Medic 13",
+            "fallbacks": [
+                "Medic 14"
+            ]
+        },
+        {
+            "primary": "Medic 14",
+            "fallbacks": [
+                "Medic 15"
+            ]
+        },
+        {
+            "primary": "Medic 15",
+            "fallbacks": [
+                "Medic 16"
+            ]
+        },
+        {
+            "primary": "Medic 16",
+            "fallbacks": [
+                "Medic 17"
+            ]
+        },
+        {
+            "primary": "Medic 17",
+            "fallbacks": [
+                "Medic 18"
+            ]
+        },
+        {
+            "primary": "Medic 18",
+            "fallbacks": [
+                "Medic 19"
+            ]
+        },
+        {
+            "primary": "Medic 19",
+            "fallbacks": [
+                "Medic 20"
+            ]
+        },
+        {
+            "primary": "Medic 20",
+            "fallbacks": [
+                "Medic 1"
+            ]
+        },
+        {
+            "primary": "ALS 1",
+            "fallbacks": [
+                "ALS 2"
+            ]
+        },
+        {
+            "primary": "ALS 2",
+            "fallbacks": [
+                "ALS 3"
+            ]
+        },
+        {
+            "primary": "ALS 3",
+            "fallbacks": [
+                "ALS 4"
+            ]
+        },
+        {
+            "primary": "ALS 4",
+            "fallbacks": [
+                "ALS 5"
+            ]
+        },
+        {
+            "primary": "ALS 5",
+            "fallbacks": [
+                "ALS 6"
+            ]
+        },
+        {
+            "primary": "ALS 6",
+            "fallbacks": [
+                "ALS 7"
+            ]
+        },
+        {
+            "primary": "ALS 7",
+            "fallbacks": [
+                "ALS 8"
+            ]
+        },
+        {
+            "primary": "ALS 8",
+            "fallbacks": [
+                "ALS 9"
+            ]
+        },
+        {
+            "primary": "ALS 9",
+            "fallbacks": [
+                "ALS 10"
+            ]
+        },
+        {
+            "primary": "ALS 10",
+            "fallbacks": [
+                "ALS 11"
+            ]
+        },
+        {
+            "primary": "ALS 11",
+            "fallbacks": [
+                "ALS 12"
+            ]
+        },
+        {
+            "primary": "ALS 12",
+            "fallbacks": [
+                "ALS 13"
+            ]
+        },
+        {
+            "primary": "ALS 13",
+            "fallbacks": [
+                "ALS 14"
+            ]
+        },
+        {
+            "primary": "ALS 14",
+            "fallbacks": [
+                "ALS 15"
+            ]
+        },
+        {
+            "primary": "ALS 15",
+            "fallbacks": [
+                "ALS 16"
+            ]
+        },
+        {
+            "primary": "ALS 16",
+            "fallbacks": [
+                "ALS 17"
+            ]
+        },
+        {
+            "primary": "ALS 17",
+            "fallbacks": [
+                "ALS 18"
+            ]
+        },
+        {
+            "primary": "ALS 18",
+            "fallbacks": [
+                "ALS 19"
+            ]
+        },
+        {
+            "primary": "ALS 19",
+            "fallbacks": [
+                "ALS 20"
+            ]
+        },
+        {
+            "primary": "ALS 20",
+            "fallbacks": [
+                "ALS 1"
+            ]
+        }
+    ]
 }
