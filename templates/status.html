@@ -69,8 +69,8 @@
 
 <ul>
 {% for truck in trucks %}
-    {% if status[truck.id] != 'unavailable' and (not only_avail or status[truck.id] == 'available') %}
-    <li class="status-{{ status[truck.id] }}">{{ truck.id }} — {{ status[truck.id]|capitalize }}</li>
+    {% if status.get(truck.id, 'unavailable') != 'unavailable' and (not only_avail or status.get(truck.id, 'unavailable') == 'available') %}
+    <li class="status-{{ status.get(truck.id, 'unavailable') }}">{{ truck.id }} — {{ status.get(truck.id, 'unavailable')|capitalize }}</li>
     {% endif %}
 {% endfor %}
 </ul>
