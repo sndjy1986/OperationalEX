@@ -6,6 +6,13 @@
     <meta charset="UTF-8">
     <title>System Status</title>
     <style>
+.flash-row {
+    animation: flashRedRow 1s infinite;
+}
+@keyframes flashRedRow {
+    0%, 100% { background-color: transparent; }
+    50% { background-color: red; color: white; }
+}
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
@@ -70,7 +77,7 @@
 <ul>
 {% for truck in trucks %}
     {% if status.get(truck.id, 'unavailable') != 'unavailable' and (not only_avail or status.get(truck.id, 'unavailable') == 'available') %}
-    <li class="status-{{ status.get(truck.id, 'unavailable') }}">{{ truck.id }} — {{ status.get(truck.id, 'unavailable')|capitalize }}</li>
+    <li class="status-{{ status.get(truck.id, 'unavailable') }} {% if status.get(truck.id, "unavailable") in ["logistics", "destination"] %}<span id="timer-{{ truck.id }}"></span>{% endif %}">{{ truck.id }} — {{ status.get(truck.id, 'unavailable')|capitalize }}</li>
     {% endif %}
 {% endfor %}
 </ul>

@@ -144,12 +144,11 @@ def system_status():
     )
 
     return render_template("status.html",
-        trucks=truck_data["trucks"],
-        status=truck_status,
-        flash_trucks=flash_trucks,
-        logistics_times=logistics_times,
-        available_trucks=available_trucks
-    ),
+                       trucks=truck_data["trucks"],
+                       status=truck_status,
+                       flash_trucks=flash_trucks,
+                       logistics_times=logistics_times,
+                       available_trucks=available_trucks),
         logistics_times=dict(logistics_times),
         available_trucks=available_trucks
     )
