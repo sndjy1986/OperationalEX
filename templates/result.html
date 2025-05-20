@@ -1,1 +1,16 @@
-<html><body><h1>Result Page</h1></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dispatch Result</title>
+</head>
+<body>
+    <h1>Dispatch Complete</h1>
+    <p><strong>{{ dispatched }}</strong> was dispatched.</p>
+    {% if fallback %}
+        <p>Suggested fallback: <strong>{{ fallback }}</strong></p>
+    {% else %}
+        <p>No fallback unit available.</p>
+    {% endif %}
+    <a href="/">Return to Dashboard</a>
+</body>
+</html>

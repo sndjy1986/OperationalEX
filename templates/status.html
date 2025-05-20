@@ -1,29 +1,65 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
     <meta http-equiv="refresh" content="30">
+    <meta charset="UTF-8">
     <title>System Status</title>
     <style>
-        .flash-row {
-            animation: flashRedRow 1s infinite;
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
         }
-        @keyframes flashRedRow {
-            0%, 100% { background-color: transparent; }
+        .status-box {
+            padding: 10px;
+            background-color: #eee;
+            color: black;
+            font-weight: bold;
+            border: 2px solid black;
+            border-radius: 8px;
+            width: fit-content;
+            margin-bottom: 20px;
+        }
+        .blink-red {
+            animation: blinkRedBg 1s infinite;
+        }
+        @keyframes blinkRedBg {
+            0%, 100% { background-color: #eee; color: black; }
             50% { background-color: red; color: white; }
         }
-        .status-available { color: green; font-weight: bold; text-transform: uppercase; }
-        .status-out { color: blue; font-weight: bold; text-transform: uppercase; }
-        .status-logistics { color: red; font-weight: bold; text-transform: uppercase; }
-        .status-destination { color: orange; font-weight: bold; text-transform: uppercase; }
+        .status-available {
+            color: green;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .status-logistics {
+            color: red;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .status-destination {
+            color: orange;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .status-out {
+            color: blue;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
     </style>
 </head>
 <body>
-<h2 style="text-align:center;">System Status — {{ available_trucks }} Available</h2>
+
+<h2>System Status</h2>
+
+<div class="status-box {% if available_trucks <= 3 %}blink-red{% endif %}">
+    SYSTEM STATUS LEVEL: {{ available_trucks }} TRUCK(S) AVAILABLE
+</div>
 
 {% set only_avail = request.args.get("only") == "available" %}
-<p style="text-align:center;">
+
+<p style="text-align:center; margin-bottom:10px;">
     {% if only_avail %}
         <a href="/status">Show All Checked-In Trucks</a>
     {% else %}
@@ -34,37 +70,13 @@
 <ul>
 {% for truck in trucks %}
     {% if status[truck.id] != 'unavailable' and (not only_avail or status[truck.id] == 'available') %}
-    <li class="status-{{ status[truck.id] }}{% if truck.id in flash_trucks %} flash-row{% endif %}">
-        {{ truck.id }} — {{ status[truck.id]|capitalize }}
-        {% if status[truck.id] in ['logistics', 'destination'] %}
-        <span id="timer-{{ truck.id }}"></span>
-        {% endif %}
-    </li>
+    <li class="status-{{ status[truck.id] }}">{{ truck.id }} — {{ status[truck.id]|capitalize }}</li>
     {% endif %}
 {% endfor %}
 </ul>
 
-<script>
-const flashTrucks = {{ flash_trucks|tojson }};
-const logisticsTimes = {{ logistics_times|tojson }};
-function updateLogisticsTimers() {
-    const now = new Date();
-    for (const [truckId, iso] of Object.entries(logisticsTimes)) {
-        const el = document.getElementById("timer-" + truckId);
-        const li = el?.closest("li");
-        if (!el || !li) continue;
-        const start = new Date(iso);
-        const diff = Math.floor((now - start) / 1000);
-        const min = Math.floor(diff / 60);
-        const sec = diff % 60;
-        el.textContent = `⏱ ${min}:${sec.toString().padStart(2, '0')}`;
-        if (flashTrucks[truckId]) {
-            li.classList.add("flash-row");
-        }
-    }
-}
-setInterval(updateLogisticsTimers, 1000);
-updateLogisticsTimers();
-</script>
+
+
+
 </body>
 </html>

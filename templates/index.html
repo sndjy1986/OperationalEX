@@ -1,1 +1,204 @@
-<html><body><h1>Index Placeholder</h1></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medshore Dispatch Dashboard</title>
+    <style>
+.flash-row {
+    animation: flashRedRow 1s infinite;
+}
+@keyframes flashRedRow {
+    0%, 100% { background-color: transparent; }
+    50% { background-color: red; color: white; }
+}
+.status-available {
+    color: green;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.status-logistics {
+    color: red;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.status-destination {
+    color: orange;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.status-out {
+    color: blue;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Dark mode styles */
+body.dark-mode {
+    background-color: #1e1e1e;
+    color: #f0f0f0;
+}
+.dark-mode .status-box {
+    background-color: #444;
+    color: #fff;
+    border-color: #888;
+}
+.dark-mode #log {
+    background-color: #444;
+    color: #f0f0f0;
+}
+
+
+.status-box {
+    padding: 10px;
+    background-color: #ccc;
+    color: black;
+    font-weight: bold;
+    border: 2px solid black;
+    border-radius: 8px;
+    width: fit-content;
+    margin-bottom: 15px;
+}
+.blink-red {
+    animation: blinkRedBg 1s infinite;
+}
+@keyframes blinkRedBg {
+    0%, 100% { background-color: #ccc; color: black; }
+    50% { background-color: red; color: white; }
+}
+#log {
+    background-color: #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    max-height: 30vh;
+    overflow-y: auto;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 30px;
+}
+</style>
+</head>
+<body>
+
+
+<div style="position: absolute; top: 10px; right: 20px;">
+    <a href="#" onclick="toggleDarkMode()">Toggle Dark Mode</a>
+</div>
+
+    <h1>Dispatch Center</h1>
+
+    <!-- System Status Box -->
+    <div class="status-box {% if available_trucks <= 3 %}blink-red{% endif %}">
+        System Status Level: {{ available_trucks }} Truck(s) Available
+    </div>
+
+    <p><a href="/availability">Manage Availability</a> |
+       <a href="/admin">Admin Console</a></p>
+
+    <form method="POST" action="/dispatch">
+        <label>Select a truck that was sent out:</label><br>
+        <select name="truck_id">
+            {% for truck in trucks %}
+                {% if status[truck.id] == "available" %}
+                    <option value="{{ truck.id }}">{{ truck.id }} - {{ truck.location }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        <button type="submit">Dispatch</button>
+    </form>
+
+    <h2>Truck Status</h2>
+    <ul>
+        {% for truck in trucks %}
+            {% if status[truck.id] != "unavailable" %}
+                <li id="truck-{{ truck.id }}">
+                    <span class="{% if truck.id in flash_trucks %}flash{% endif %}">{{ truck.id }}</span>:
+                    <span class="{% if truck.id in flash_trucks %}flash {% endif %}
+                        {% if status[truck.id] == 'available' %}status-available
+                        {% elif status[truck.id] == 'out' %}status-out
+                        {% elif status[truck.id] == 'logistics' %}status-logistics
+                        {% elif status[truck.id] == 'destination' %}status-destination
+                        {% endif %}">
+                        {{ status[truck.id] }}
+                    </span>
+
+                    {% if status[truck.id] == "logistics" or status[truck.id] == "destination" %}
+                        <span id="timer-{{ truck.id }}" data-start="{{ logistics_times[truck.id] }}"></span>
+                        {% if status[truck.id] == "logistics" %}
+                            <a href="/reset/{{ truck.id }}">[Reset]</a>
+                        {% else %}
+                            <a href="/reset/{{ truck.id }}">[Reset]</a>
+                        {% endif %}
+                    {% elif status[truck.id] == "out" %}
+                        <a href="/destination/{{ truck.id }}">[Destination]</a>
+                        <a href="/reset/{{ truck.id }}">[Available]</a>
+                    {% elif status[truck.id] == "available" %}
+                        <a href="/logistics/{{ truck.id }}">[Logistics]</a>
+                    {% endif %}
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+    <div id="log">
+        <h3>Activity Log</h3>
+        <ul>
+            {% for entry in activity_log %}
+                <li>{{ entry }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script>
+        function updateTimers() {
+            const timerSpans = document.querySelectorAll('[id^="timer-"]');
+            const now = new Date().getTime();
+
+            timerSpans.forEach(span => {
+                const startTime = new Date(span.getAttribute("data-start")).getTime();
+                const parent = span.closest("li");
+                const statusClass = parent.querySelector("span:nth-of-type(2)").className;
+
+                let duration = 10 * 60 * 1000; // logistics default
+                if (statusClass.includes("status-destination")) {
+                    duration = 20 * 60 * 1000; // destination (20 minutes)
+                }
+
+                const remaining = duration - (now - startTime);
+                if (remaining > 0) {
+                    const mins = Math.floor(remaining / 60000);
+                    const secs = Math.floor((remaining % 60000) / 1000);
+                    span.textContent = ` - ${mins}:${secs.toString().padStart(2, '0')} remaining`;
+                } else {
+                    if (remaining <= 0) {
+                    
+    span.textContent = "";
+    parent.classList.add("flash-row");
+    
+                    const nameSpan = parent.querySelector("span:first-of-type");
+                    if (nameSpan) {
+                        nameSpan.classList.add("flash-red");
+                    }
+                }
+                }
+            });
+        }
+
+        setInterval(updateTimers, 1000);
+        updateTimers();
+
+        // Auto-refresh every 3 minutes
+        setTimeout(() => {
+            location.reload();
+        }, 180000);
+
+        {% if show_admin_alert %}
+            alert("NOTIFY ADMIN OF SYSTEM STATUS");
+        {% endif %}
+    
+function toggleDarkMode() {
+    document.body.classList.toggle("dark-mode");
+}
+
+</script>
+<p style="text-align: center; margin-top: 30px;"><a href="/status">View System Status Page</a></p>
+</body>
+</html>
