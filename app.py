@@ -122,32 +122,13 @@ def index():
 
 @app.route("/status")
 def system_status():
-    now = datetime.utcnow()
-    flash_trucks = {}
-    logistics_times = {}
-
-    for truck_id, status in truck_status.items():
-        if status in ["logistics", "destination"]:
-            start_time = logistics_timer.get(truck_id)
-            if start_time:
-                logistics_times[truck_id] = start_time.strftime("%Y-%m-%dT%H:%M:%SZ")
-                if (
-                    status == "logistics" and now - start_time >= timedelta(minutes=10)
-                ) or (
-                    status == "destination" and now - start_time >= timedelta(minutes=20)
-                ):
-                    flash_trucks[truck_id] = True
-
     available_trucks = sum(
         1 for tid, s in truck_status.items()
         if s == "available" and tid.startswith("Medic ")
     )
-
     return render_template("status.html",
         trucks=truck_data["trucks"],
         status=truck_status,
-        flash_trucks=flash_trucks,
-        logistics_times=logistics_times,
         available_trucks=available_trucks
     )
 
@@ -162,6 +143,7 @@ def availability():
         return redirect(url_for("index"))
 
     return render_template("availability.html", trucks=truck_data["trucks"], status=truck_status)
+
 
 @app.route("/dispatch", methods=["POST"])
 def dispatch():
@@ -238,6 +220,20 @@ def admin():
     return render_template("admin.html", trucks=truck_data["trucks"], fallback_map=fallback_map)
 
 if __name__ == "__main__":
+
     load_config()
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
+
+@app.route("/availability", methods=["GET", "POST"])
+def availability():
+    if request.method == "POST":
+        selected = request.form.getlist("available")
+        for truck in truck_status:
+            if truck_status[truck] not in ["out", "logistics", "destination"]:
+                new_status = "available" if truck in selected else "unavailable"
+                update_status(truck, new_status)
+        return redirect(url_for("index"))
+
+    return render_template("availability.html", trucks=truck_data["trucks"], status=truck_status)
