@@ -2,96 +2,96 @@
     "trucks": [
         {
             "id": "Medic 0",
-            "location": "INSIDE FOLDER"
+            "location": "Station 0"
         },
         {
             "id": "Medic 1",
-            "location": "City // HQ"
+            "location": "Station 1"
         },
         {
             "id": "Medic 2",
-            "location": "Rock Springs"
+            "location": "Station 2"
         },
         {
             "id": "Medic 3",
-            "location": "Homeland Park"
+            "location": "Station 3"
         },
         {
             "id": "Medic 4",
-            "location": "Williamston"
+            "location": "Station 4"
         },
         {
             "id": "Medic 5",
-            "location": "Hopewell"
+            "location": "Station 5"
         },
         {
             "id": "Medic 6",
-            "location": "Iva"
+            "location": "Station 6"
         },
         {
             "id": "Medic 7",
-            "location": "Pendleton"
+            "location": "Station 7"
         },
         {
             "id": "Medic 8",
-            "location": "Townville"
+            "location": "Station 8"
         },
         {
             "id": "Medic 9",
-            "location": "Centerville"
+            "location": "Station 9"
         },
         {
             "id": "Medic 10",
-            "location": "Station M10"
+            "location": "Station 10"
         },
         {
             "id": "Medic 11",
-            "location": "Station M11"
+            "location": "Station 11"
         },
         {
             "id": "Medic 12",
-            "location": "City // HQ"
+            "location": "Station 12"
         },
         {
             "id": "Medic 13",
-            "location": "Honea Path"
+            "location": "Station 13"
         },
         {
             "id": "Medic 14",
-            "location": "Powdersville"
+            "location": "Station 14"
         },
         {
             "id": "Medic 15",
-            "location": "Wren"
+            "location": "Station 15"
         },
         {
             "id": "Medic 16",
-            "location": "Williamston"
+            "location": "Station 16"
         },
         {
             "id": "Medic 17",
-            "location": "City // HQ"
+            "location": "Station 17"
         },
         {
             "id": "Medic 18",
-            "location": "City // HQ"
+            "location": "Station 18"
         }
     ],
     "Level_Movement": {
         "1": [
-            "HEADQUARTERS"
+            "Zone A"
         ],
         "2": [
-            "FIRE STATION 1 & LIBERTY HWY"
+            "Zone B"
         ],
         "3": [
-            "ROCK SPRINGS & WEST ANDERSON & WHITE PLAINS"
+            "Zone C"
         ],
         "4": [
-            "ROCK SPRINGS & WEST ANDERSON & WHITE PLAINS & 76/WELPINE"
+            "Zone D"
         ],
         "5": [
-            "ROCK SPRINGS & WEST ANDERSON & WHITE PLAINS & 76/WELPINE & 81/FRED DEAN"
+            "Zone E"
         ],
         "6": [
             "Zone F"

@@ -150,15 +150,23 @@ def dispatch():
     try:
         truck_id = request.form["truck_id"]
         update_status(truck_id, "out")
-        fallback_id = None
-        for rule in truck_data.get("fallback_rules", []):
-            if rule["primary"] == truck_id:
-                for candidate in rule.get("fallbacks", []):
-                    if truck_status.get(candidate) == "available":
-                        fallback_id = candidate
-                        break
-                break
-        return render_template("result.html", dispatched=truck_id, fallback=fallback_id)
+
+        available_trucks = sum(
+            1 for tid, status in truck_status.items()
+            if status == "available" and tid.startswith("Medic ")
+        )
+        system_status_level = min(available_trucks, 17)
+
+        areas_to_cover = truck_data.get("Level_Movement", {}).get(str(system_status_level), [])
+
+        return render_template("postings.html",
+            system_status_level=system_status_level,
+            trucks_to_post=areas_to_cover
+        )
+    except Exception as e:
+        return str(e), 400
+    except Exception as e:
+        return str(e), 400
     except Exception as e:
         return str(e), 400
 

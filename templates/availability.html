@@ -1,8 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script>
+if (localStorage.getItem("darkMode") === "true") {
+    document.documentElement.classList.add("dark-mode");
+}
+</script>
+<style>
+html.dark-mode, body.dark-mode {
+    background-color: #1e1e1e;
+    color: #f0f0f0;
+}
+</style>
     <title>Truck Availability Management</title>
     <style>
+body.dark-mode {
+    background-color: #1e1e1e;
+    color: #f0f0f0;
+}
         body {
             font-family: sans-serif;
             margin: 20px;
@@ -49,5 +64,17 @@
         <button type="submit">Save Changes</button>
     </form>
     <p><a href="/">← Back to Dashboard</a></p>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    if (localStorage.getItem("darkMode") === "true") {
+        document.body.classList.add("dark-mode");
+    }
+});
+
+function toggleDarkMode() {
+    document.body.classList.toggle("dark-mode");
+    localStorage.setItem("darkMode", document.body.classList.contains("dark-mode"));
+}
+</script>
 </body>
 </html>
