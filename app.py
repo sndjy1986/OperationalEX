@@ -76,6 +76,9 @@ def log_action(truck_id, new_status):
 
 @app.route("/")
 def index():
+    if not truck_data.get("trucks"):
+        return "🚨 ERROR: No truck data loaded! Check CONFIG_PATH and ensure truck_config.json is present.", 500
+
     now = datetime.utcnow()
     flash_trucks = {}
     logistics_times = {}
@@ -206,3 +209,9 @@ def admin():
     return render_template("admin.html", trucks=truck_data["trucks"], fallback_map=fallback_map)
 
 load_config()
+
+
+if __name__ == "__main__":
+    load_config()
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
