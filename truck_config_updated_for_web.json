@@ -1,0 +1,133 @@
+{
+    "trucks": [
+        {
+            "id": "Medic 0",
+            "location": "Station 0"
+        },
+        {
+            "id": "Medic 1",
+            "location": "Station 1"
+        },
+        {
+            "id": "Medic 2",
+            "location": "Station 2"
+        },
+        {
+            "id": "Medic 3",
+            "location": "Station 3"
+        },
+        {
+            "id": "Medic 4",
+            "location": "Station 4"
+        },
+        {
+            "id": "Medic 5",
+            "location": "Station 5"
+        },
+        {
+            "id": "Medic 6",
+            "location": "Station 6"
+        },
+        {
+            "id": "Medic 7",
+            "location": "Station 7"
+        },
+        {
+            "id": "Medic 8",
+            "location": "Station 8"
+        },
+        {
+            "id": "Medic 9",
+            "location": "Station 9"
+        },
+        {
+            "id": "Medic 10",
+            "location": "Station 10"
+        },
+        {
+            "id": "Medic 11",
+            "location": "Station 11"
+        },
+        {
+            "id": "Medic 12",
+            "location": "Station 12"
+        },
+        {
+            "id": "Medic 13",
+            "location": "Station 13"
+        },
+        {
+            "id": "Medic 14",
+            "location": "Station 14"
+        },
+        {
+            "id": "Medic 15",
+            "location": "Station 15"
+        },
+        {
+            "id": "Medic 16",
+            "location": "Station 16"
+        },
+        {
+            "id": "Medic 17",
+            "location": "Station 17"
+        },
+        {
+            "id": "Medic 18",
+            "location": "Station 18"
+        }
+    ],
+    "Level_Movement": {
+        "1": [
+            "Medshore HQ"
+        ],
+        "2": [
+            "Fire Station 1\nLiberty HWY"
+        ],
+        "3": [
+            "Rock Springs\nWest Anderson\nWhite Plains "
+        ],
+        "4": [
+            "ock Springs\nWest Anderson\nWhite Plains\n76/Welpine"
+        ],
+        "5": [
+            "ock Springs\nWhite Plains\n76 & Welpine\nWestGate\n81/Fred Dean"
+        ],
+        "6": [
+            "Rock Springs\nWhite Plains\nWhitefield\nWestGate\n81/Fred Dean\nLiberty Hwy"
+        ],
+        "7": [
+            "Rock Springs\nWhite Plains\n76 & Welpine\nWestGate\n81/Fred Dean\nHQ\nWhitefield"
+        ],
+        "8": [
+            "Rock Springs\nHomeland Park\nHonea Path\nWren\nIva\nWest Anderson\nWilliamston\nPendleton"
+        ],
+        "9": [
+            "Rock Springs\nHomeland Park\nHonea Path\nWren\nIva\nWest Anderson\nWilliamston\nPendleton\nPowdersville"
+        ],
+        "10": [
+            "Rock Springs\nHomeland Park\nHonea Path\nWren\nIva\nWest Anderson\nWilliamston\nPendleton\nPowdersville\nTownville"
+        ],
+        "11": [
+            "Rock Springs\nHomeland Park\nHonea Path\nWren\nIva\nWest Anderson\nWilliamston\nPendleton\nPowdersville\nTownville\nHQ"
+        ],
+        "12": [
+            "Rock Springs\nHomeland Park\nHonea Path\nWren\nIva\nWest Anderson\nWilliamston\nPendleton\nPowdersville\nTownville\nHQ\nHopeWell"
+        ],
+        "13": [
+            "Rock Springs\nHomeland Park\nHonea Path\nWren\nIva\nWest Anderson\nWilliamston\nPendleton\nPowdersville\nTownville\nHQ\nHopeWell\nNorth Campus"
+        ],
+        "14": [
+            "Rock Springs\nHomeland Park\nHonea Path\nWren\nIva\nWest Anderson\nWilliamston\nPendleton\nPowdersville\nTownville\nHQ\nHopeWell\nNorth Campus\nHQ"
+        ],
+        "15": [
+            "Rock Springs\nHomeland Park\nHonea Path\nWren\nIva\nCenterville\nWilliamston\nPendleton\nPowdersville\nTownville\nHQ\nHopeWell\nNorth Campus\nHQ\nWest Anderson\n76 & Welpine"
+        ],
+        "16": [
+            "Rock Springs\nHomeland Park\nHonea Path\nWren\nIva\nCenterville\nWilliamston\nPendleton\nPowdersville\nTownville\nHQ\nHopeWell\nNorth Campus\nHQ\nWest Anderson\n76 & Welpine\nWhiteField"
+        ],
+        "17": [
+            "Rock Springs\nHomeland Park\nHonea Path\nWren\nIva\nCenterville\nWilliamston\nPendleton\nPowdersville\nTownville\nHQ\nHopeWell\nNorth Campus\nHQ x 2\nWest Anderson\n76 & Welpine\nWhiteField"
+        ]
+    }
+}

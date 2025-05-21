@@ -3,13 +3,14 @@ import json
 import os
 from datetime import datetime, timedelta
 import pytz
+from pathlib import Path
 
 app = Flask(__name__)
-app.secret_key = "very_secret_key"
+app.secret_key = os.getenv("FLASK_SECRET_KEY", "default_secret_key")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "ADMIN123")
 
-CONFIG_PATH = "data/truck_config.json"
-LOG_PATH = "logs/activity.log"
+CONFIG_PATH = os.getenv("CONFIG_PATH", "data/truck_config.json")
+LOG_PATH = os.getenv("LOG_PATH", "logs/activity.log")
 LOG_RETENTION_HOURS = 72
 
 truck_data = {}
@@ -17,51 +18,39 @@ truck_status = {}
 logistics_timer = {}
 activity_log = []
 
+def ensure_directories():
+    Path(os.path.dirname(CONFIG_PATH)).mkdir(parents=True, exist_ok=True)
+    Path(os.path.dirname(LOG_PATH)).mkdir(parents=True, exist_ok=True)
+
 def load_config():
     global truck_data, truck_status
+    ensure_directories()
+
     with open(CONFIG_PATH) as f:
         truck_data = json.load(f)
 
     if "trucks" not in truck_data:
         truck_data["trucks"] = []
 
-    custom_defaults = {
-        "MEDIC_CUSTOM_1": "Custom Location 1",
-        "MEDIC_CUSTOM_2": "Custom Location 2"
-    }
-    for cid, loc in custom_defaults.items():
-        if cid not in [t["id"] for t in truck_data["trucks"]]:
-            truck_data["trucks"].append({"id": cid, "location": loc})
+    if "fallback_rules" not in truck_data:
+        truck_data["fallback_rules"] = []
 
     truck_status.clear()
     for truck in truck_data["trucks"]:
-        truck_id = truck["id"]
-        if truck_id in {
-            'Medic 9', 'Medic 13', 'Medic 8', 'Medic 6', 'Medic 1', 'Medic 15',
-            'Medic 14', 'Medic 16', 'Medic 0', 'Medic 4', 'Medic 7', 'Medic 5',
-            'Medic 3', 'Medic 17', 'Medic 18', 'Medic 2'
-        }:
-            truck_status[truck_id] = "available" if truck_id.startswith("Medic ") and truck_id in {
-                "Medic 0", "Medic 1", "Medic 2", "Medic 3", "Medic 4",
-                "Medic 5", "Medic 6", "Medic 7", "Medic 8", "Medic 9",
-                "Medic 13", "Medic 14", "Medic 15", "Medic 16", "Medic 17", "Medic 18"
-            } else "unavailable"
-        else:
-            truck_status[truck_id] = "unavailable"
+        truck_status[truck["id"]] = "available"
 
 def save_config(config):
     with open(CONFIG_PATH, "w") as f:
         json.dump(config, f, indent=4)
 
 def update_status(truck_id, new_status):
-    print(f"Setting {truck_id} to {new_status}")
     truck_status[truck_id] = new_status
     if new_status == "available":
         logistics_timer.pop(truck_id, None)
     log_action(truck_id, new_status)
 
 def log_action(truck_id, new_status):
-    os.makedirs("logs", exist_ok=True)
+    ensure_directories()
     eastern = pytz.timezone("US/Eastern")
     now = datetime.now(eastern)
     timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
@@ -114,7 +103,7 @@ def index():
         trucks=truck_data["trucks"],
         status=truck_status,
         flash_trucks=flash_trucks,
-        logistics_times=logistics_times,
+        logistics_times=logistics_timer,
         activity_log=activity_log,
         show_admin_alert=show_admin_alert,
         available_trucks=available_trucks
@@ -144,31 +133,24 @@ def availability():
 
     return render_template("availability.html", trucks=truck_data["trucks"], status=truck_status)
 
-
 @app.route("/dispatch", methods=["POST"])
 def dispatch():
-    try:
-        truck_id = request.form["truck_id"]
-        update_status(truck_id, "out")
+    truck_id = request.form.get("truck_id")
+    if not truck_id:
+        return "No truck ID provided", 400
 
-        available_trucks = sum(
-            1 for tid, status in truck_status.items()
-            if status == "available" and tid.startswith("Medic ")
-        )
-        system_status_level = min(available_trucks, 17)
+    update_status(truck_id, "out")
+    available_trucks = sum(
+        1 for tid, status in truck_status.items()
+        if status == "available" and tid.startswith("Medic ")
+    )
+    system_status_level = min(available_trucks, 17)
+    areas_to_cover = truck_data.get("Level_Movement", {}).get(str(system_status_level), [])
 
-        areas_to_cover = truck_data.get("Level_Movement", {}).get(str(system_status_level), [])
-
-        return render_template("postings.html",
-            system_status_level=system_status_level,
-            trucks_to_post=areas_to_cover
-        )
-    except Exception as e:
-        return str(e), 400
-    except Exception as e:
-        return str(e), 400
-    except Exception as e:
-        return str(e), 400
+    return render_template("postings.html",
+        system_status_level=system_status_level,
+        trucks_to_post=areas_to_cover
+    )
 
 @app.route("/reset/<truck_id>")
 def reset_truck(truck_id):
@@ -206,10 +188,6 @@ def admin():
                 truck_status[new_id] = truck_status.pop(old_id, "available")
                 if old_id in logistics_timer:
                     logistics_timer[new_id] = logistics_timer.pop(old_id)
-                for rule in truck_data.get("fallback_rules", []):
-                    if rule["primary"] == old_id:
-                        rule["primary"] = new_id
-                    rule["fallbacks"] = [new_id if fb == old_id else fb for fb in rule["fallbacks"]]
 
         for truck in truck_data["trucks"]:
             new_loc = request.form.get(f"location_{truck['id']}")
@@ -228,20 +206,5 @@ def admin():
     return render_template("admin.html", trucks=truck_data["trucks"], fallback_map=fallback_map)
 
 if __name__ == "__main__":
-
     load_config()
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
-
-
-@app.route("/availability", methods=["GET", "POST"])
-def availability():
-    if request.method == "POST":
-        selected = request.form.getlist("available")
-        for truck in truck_status:
-            if truck_status[truck] not in ["out", "logistics", "destination"]:
-                new_status = "available" if truck in selected else "unavailable"
-                update_status(truck, new_status)
-        return redirect(url_for("index"))
-
-    return render_template("availability.html", trucks=truck_data["trucks"], status=truck_status)
+    app.run()
