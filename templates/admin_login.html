@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
 <head>
 <script>
@@ -12,14 +13,14 @@ html.dark-mode, body.dark-mode {
     color: #f0f0f0;
 }
 </style>
-    <title>Admin Login</title>
+<title>Admin Login</title>
 </head>
 <body>
-    <h2>Admin Login</h2>
-    <form method="POST">
-        <input type="password" name="password" placeholder="Enter password">
-        <button type="submit">Login</button>
-    </form>
+<h2>Admin Login</h2>
+<form method="POST">
+<input name="password" placeholder="Enter password" type="password"/>
+<button type="submit">Login</button>
+</form>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     if (localStorage.getItem("darkMode") === "true") {

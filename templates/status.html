@@ -1,5 +1,6 @@
 
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <script>
@@ -13,10 +14,10 @@ html.dark-mode, body.dark-mode {
     color: #f0f0f0;
 }
 </style>
-    <meta http-equiv="refresh" content="30">
-    <meta charset="UTF-8">
-    <title>System Status</title>
-    <style>
+<meta content="30" http-equiv="refresh"/>
+<meta charset="utf-8"/>
+<title>System Status</title>
+<style>
 body.dark-mode {
     background-color: #1e1e1e;
     color: #f0f0f0;
@@ -65,9 +66,7 @@ body.dark-mode {
     </style>
 </head>
 <body>
-
 <h2>System Status</h2>
-
 <div class="status-box {% if available_trucks <= 3 %}blink-red{% endif %}">
     SYSTEM STATUS LEVEL: {{ available_trucks }} TRUCK(S) AVAILABLE
 </div>
@@ -81,18 +80,13 @@ body.dark-mode {
         <a href="/status?only=available">Show Only Available Trucks</a>
     {% endif %}
 </p>
-
 <ul>
 {% for truck in trucks %}
-    {% if status[truck.id] != 'unavailable' and (not only_avail or status[truck.id] == 'available') %}
-    <li class="status-{{ status[truck.id] }}">{{ truck.id }} — {{ status[truck.id]|capitalize }}</li>
+    {% if status[truck['id']] != 'unavailable' and (not only_avail or status[truck['id']] == 'available') %}
+    <li class="status-{{ status[truck['id']] }}">{{ truck['id'] }} — {{ status[truck['id']]|capitalize }}</li>
     {% endif %}
 {% endfor %}
 </ul>
-
-
-
-
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     if (localStorage.getItem("darkMode") === "true") {

@@ -1,9 +1,10 @@
 
 <!DOCTYPE html>
+
 <html>
 <head>
-    <title>Posting Assignments</title>
-    <script>
+<title>Posting Assignments</title>
+<script>
 if (localStorage.getItem("darkMode") === "true") {
     document.documentElement.classList.add("dark-mode");
 }
@@ -16,8 +17,7 @@ html.dark-mode, body.dark-mode {
 </style>
 </head>
 <body>
-<a href="#" onclick="toggleDarkMode()">Toggle Dark Mode</a><br>
-
+<a href="#" onclick="toggleDarkMode()">Toggle Dark Mode</a><br/>
 <h2>Posting Assignments (Level {{ system_status_level }})</h2>
 
 {% if trucks_to_post %}

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
 <head>
 <script>
@@ -12,8 +13,8 @@ html.dark-mode, body.dark-mode {
     color: #f0f0f0;
 }
 </style>
-    <title>Truck Availability Management</title>
-    <style>
+<title>Truck Availability Management</title>
+<style>
 body.dark-mode {
     background-color: #1e1e1e;
     color: #f0f0f0;
@@ -41,29 +42,28 @@ body.dark-mode {
     </style>
 </head>
 <body>
-    <h1>Manage Truck Availability</h1>
-    <form method="POST">
-        <ul>
+<h1>Manage Truck Availability</h1>
+<form method="POST">
+<ul>
             {% for truck in trucks %}
-                {% if status[truck.id] not in ["out", "logistics"] %}
+                {% if status[truck['id']] not in ["out", "logistics"] %}
                     <li>
-                        <label>
-                            <input type="checkbox" name="available" value="{{ truck.id }}"
-                                {% if status[truck.id] == "available" %}checked{% endif %}>
-                            {{ truck.id }} ({{ truck.location }})
+<label>
+<input type="checkbox" name="available" value="{{ truck['id'] }}" {% if status[truck['id']] == 'available' %}checked{% endif %}>
+                            {{ truck['id'] }} ({{ truck.location }})
                         </label>
-                    </li>
+</li>
                 {% else %}
                     <li>
-                        {{ truck.id }} ({{ truck.location }}) is currently
-                        "<strong>{{ status[truck.id] }}</strong>" — cannot update.
+                        {{ truck['id'] }} ({{ truck.location }}) is currently
+                        "<strong>{{ status[truck['id']] }}</strong>" — cannot update.
                     </li>
                 {% endif %}
             {% endfor %}
         </ul>
-        <button type="submit">Save Changes</button>
-    </form>
-    <p><a href="/">← Back to Dashboard</a></p>
+<button type="submit">Save Changes</button>
+</form>
+<p><a href="/">← Back to Dashboard</a></p>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     if (localStorage.getItem("darkMode") === "true") {
