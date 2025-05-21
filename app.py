@@ -109,8 +109,10 @@ def index():
     )
 
     show_admin_alert = available_trucks <= 3
+    posting_plan = truck_data.get("Level_Movement", {}).get(str(available_trucks), [])
 
     return render_template("index.html",
+        posting_plan=posting_plan,
         trucks=truck_data["trucks"],
         status=truck_status,
         flash_trucks=flash_trucks,

@@ -97,7 +97,7 @@ body.dark-mode {
     <h1>Dispatch Center</h1>
 
     <!-- System Status Box -->
-    <div class="status-box {% if available_trucks <= 3 %}blink-red{% endif %}">
+    <div id="statusBox" class="status-box {% if available_trucks <= 3 %}blink-red{% endif %}">
         System Status Level: {{ available_trucks }} Truck(s) Available
     </div>
 
@@ -211,5 +211,29 @@ function toggleDarkMode() {
 
 </script>
 <p style="text-align: center; margin-top: 30px;"><a href="/status">View System Status Page</a></p>
+
+<!-- Modal for Posting Plan -->
+<div id="postingModal" style="display:none; position:fixed; top:20%; left:50%; transform:translateX(-50%);
+     background:white; padding:20px; border:2px solid black; border-radius:10px; z-index:1000;">
+    <h3>Posting Plan for {{ available_trucks }} Truck(s)</h3>
+    {% if posting_plan %}
+        <ul>
+            {% for location in posting_plan %}
+                <li>{{ location }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No posting plan defined.</p>
+    {% endif %}
+    <button onclick="document.getElementById('postingModal').style.display='none'">Close</button>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("statusBox").addEventListener("click", function() {
+        document.getElementById("postingModal").style.display = "block";
+    });
+});
+</script>
+
 </body>
 </html>
