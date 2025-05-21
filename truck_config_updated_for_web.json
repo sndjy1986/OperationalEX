@@ -1,80 +1,89 @@
 {
     "trucks": [
         {
+            "id": "Alpha 5",
+            "location": "Centerville"
+        },
+         {
+            "id": "Alpha 8",
+            "location": "City // HQ"
+        },
+        {
             "id": "Medic 0",
-            "location": "Station 0"
+            "location": "City // HQ"
         },
         {
             "id": "Medic 1",
-            "location": "Station 1"
+            "location": "City // HQ"
         },
         {
             "id": "Medic 2",
-            "location": "Station 2"
+            "location": "Rock Springs"
         },
         {
             "id": "Medic 3",
-            "location": "Station 3"
+            "location": "Homeland Park"
         },
         {
             "id": "Medic 4",
-            "location": "Station 4"
+            "location": "Williamston"
         },
         {
             "id": "Medic 5",
-            "location": "Station 5"
+            "location": "Hopewell"
         },
         {
             "id": "Medic 6",
-            "location": "Station 6"
+            "location": "Iva"
         },
         {
             "id": "Medic 7",
-            "location": "Station 7"
+            "location": "Pendleton"
         },
         {
             "id": "Medic 8",
-            "location": "Station 8"
+            "location": "Townville"
         },
         {
             "id": "Medic 9",
-            "location": "Station 9"
+            "location": "Centerville"
         },
         {
             "id": "Medic 10",
-            "location": "Station 10"
+            "location": "Station M10"
         },
         {
             "id": "Medic 11",
-            "location": "Station 11"
+            "location": "Station M11"
         },
         {
             "id": "Medic 12",
-            "location": "Station 12"
+            "location": "City // HQ"
         },
         {
             "id": "Medic 13",
-            "location": "Station 13"
+            "location": "Honea Path"
         },
         {
             "id": "Medic 14",
-            "location": "Station 14"
+            "location": "Powdersville"
         },
         {
             "id": "Medic 15",
-            "location": "Station 15"
+            "location": "Wren"
         },
         {
             "id": "Medic 16",
-            "location": "Station 16"
+            "location": "Williamston"
         },
         {
             "id": "Medic 17",
-            "location": "Station 17"
+            "location": "City // HQ"
         },
         {
             "id": "Medic 18",
-            "location": "Station 18"
+            "location": "City // HQ"
+        }
         }
     ],
     "Level_Movement": {
