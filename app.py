@@ -205,6 +205,4 @@ def admin():
     fallback_map = {rule["primary"]: ", ".join(rule["fallbacks"]) for rule in truck_data.get("fallback_rules", [])}
     return render_template("admin.html", trucks=truck_data["trucks"], fallback_map=fallback_map)
 
-if __name__ == "__main__":
-    load_config()
-    app.run()
+load_config()
