@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Posting Assignments</title>
+    <script>
+if (localStorage.getItem("darkMode") === "true") {
+    document.documentElement.classList.add("dark-mode");
+}
+</script>
+<style>
+html.dark-mode, body.dark-mode {
+    background-color: #1e1e1e;
+    color: #f0f0f0;
+}
+</style>
+</head>
+<body>
+<a href="#" onclick="toggleDarkMode()">Toggle Dark Mode</a><br>
+
+<h2>Posting Assignments (Level {{ system_status_level }})</h2>
+
+{% if trucks_to_post %}
+<ul>
+  {% for truck in trucks_to_post %}
+    <li>{{ truck }}</li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No postings required at this level.</p>
+{% endif %}
+
+<script>
+function toggleDarkMode() {
+    document.documentElement.classList.toggle("dark-mode");
+    localStorage.setItem("darkMode", document.documentElement.classList.contains("dark-mode"));
+}
+</script>
+</body>
+</html>

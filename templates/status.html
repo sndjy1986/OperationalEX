@@ -2,6 +2,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+if (localStorage.getItem("darkMode") === "true") {
+    document.documentElement.classList.add("dark-mode");
+}
+</script>
+<style>
+html.dark-mode, body.dark-mode {
+    background-color: #1e1e1e;
+    color: #f0f0f0;
+}
+</style>
     <meta http-equiv="refresh" content="30">
     <meta charset="UTF-8">
     <title>System Status</title>

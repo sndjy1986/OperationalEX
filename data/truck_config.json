@@ -2,132 +2,205 @@
     "trucks": [
         {
             "id": "Medic 0",
-            "location": "City // HQ"
+            "location": "Station 0"
         },
         {
             "id": "Medic 1",
-            "location": "City // HQ"
+            "location": "Station 1"
         },
         {
             "id": "Medic 2",
-            "location": "Rock Springs"
+            "location": "Station 2"
         },
         {
             "id": "Medic 3",
-            "location": "Homeland Park"
+            "location": "Station 3"
         },
         {
             "id": "Medic 4",
-            "location": "Williamston"
+            "location": "Station 4"
         },
         {
             "id": "Medic 5",
-            "location": "Hopewell"
+            "location": "Station 5"
         },
         {
             "id": "Medic 6",
-            "location": "Iva"
+            "location": "Station 6"
         },
         {
             "id": "Medic 7",
-            "location": "Pendleton"
+            "location": "Station 7"
         },
         {
             "id": "Medic 8",
-            "location": "Townville"
+            "location": "Station 8"
         },
         {
             "id": "Medic 9",
-            "location": "Centerville"
+            "location": "Station 9"
         },
         {
             "id": "Medic 10",
-            "location": "Station M10"
+            "location": "Station 10"
         },
         {
             "id": "Medic 11",
-            "location": "Station M11"
+            "location": "Station 11"
         },
         {
             "id": "Medic 12",
-            "location": "City // HQ"
+            "location": "Station 12"
         },
         {
             "id": "Medic 13",
-            "location": "Honea Path"
+            "location": "Station 13"
         },
         {
             "id": "Medic 14",
-            "location": "Powdersville"
+            "location": "Station 14"
         },
         {
             "id": "Medic 15",
-            "location": "Wren"
+            "location": "Station 15"
         },
         {
             "id": "Medic 16",
-            "location": "Williamston"
+            "location": "Station 16"
         },
         {
             "id": "Medic 17",
-            "location": "City // HQ"
+            "location": "Station 17"
         },
         {
             "id": "Medic 18",
-            "location": "City // HQ"
+            "location": "Station 18"
         }
     ],
-    "Level_Movement": {
+    "Post_Levels": {
         "1": [
-            "Zone A"
+            "Medic 1",
+            "Medic 2"
         ],
         "2": [
-            "Zone B"
+            "Medic 1",
+            "Medic 2",
+            "Medic 3"
         ],
         "3": [
-            "Zone C"
+            "Medic 1",
+            "Medic 2",
+            "Medic 3",
+            "Medic 4"
         ],
         "4": [
-            "Zone D"
+            "Medic 1",
+            "Medic 2",
+            "Medic 3",
+            "Medic 4",
+            "Medic 5"
         ],
         "5": [
-            "Zone E"
+            "Medic 1",
+            "Medic 2",
+            "Medic 3",
+            "Medic 4",
+            "Medic 5",
+            "Medic 6"
         ],
         "6": [
-            "Zone F"
+            "Medic 1",
+            "Medic 2",
+            "Medic 3",
+            "Medic 4",
+            "Medic 5",
+            "Medic 6",
+            "Medic 7"
         ],
         "7": [
-            "Zone G"
+            "Medic 1",
+            "Medic 2",
+            "Medic 3",
+            "Medic 4",
+            "Medic 5",
+            "Medic 6",
+            "Medic 7",
+            "Medic 8"
         ],
         "8": [
-            "Zone H"
+            "Medic 1",
+            "Medic 2",
+            "Medic 3",
+            "Medic 4",
+            "Medic 5",
+            "Medic 6",
+            "Medic 7",
+            "Medic 8",
+            "Medic 9"
         ],
         "9": [
-            "Zone I"
+            "Medic 1",
+            "Medic 2",
+            "Medic 3",
+            "Medic 4",
+            "Medic 5",
+            "Medic 6",
+            "Medic 7",
+            "Medic 8",
+            "Medic 9",
+            "Medic 10"
         ],
         "10": [
-            "Zone J"
+            "Medic 1"
         ],
         "11": [
-            "Zone K"
+            "Medic 1",
+            "Medic 2"
         ],
         "12": [
-            "Zone L"
+            "Medic 1",
+            "Medic 2",
+            "Medic 3"
         ],
         "13": [
-            "Zone M"
+            "Medic 1",
+            "Medic 2",
+            "Medic 3",
+            "Medic 4"
         ],
         "14": [
-            "Zone N"
+            "Medic 1",
+            "Medic 2",
+            "Medic 3",
+            "Medic 4",
+            "Medic 5"
         ],
         "15": [
-            "Zone O"
+            "Medic 1",
+            "Medic 2",
+            "Medic 3",
+            "Medic 4",
+            "Medic 5",
+            "Medic 6"
         ],
         "16": [
-            "Zone P"
+            "Medic 1",
+            "Medic 2",
+            "Medic 3",
+            "Medic 4",
+            "Medic 5",
+            "Medic 6",
+            "Medic 7"
         ],
         "17": [
-            "Zone Q"
+            "Medic 1",
+            "Medic 2",
+            "Medic 3",
+            "Medic 4",
+            "Medic 5",
+            "Medic 6",
+            "Medic 7",
+            "Medic 8"
         ]
     }
 }

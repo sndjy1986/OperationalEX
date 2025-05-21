@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script>
+if (localStorage.getItem("darkMode") === "true") {
+    document.documentElement.classList.add("dark-mode");
+}
+</script>
+<style>
+html.dark-mode, body.dark-mode {
+    background-color: #1e1e1e;
+    color: #f0f0f0;
+}
+</style>
     <title>Dispatch Result</title>
 </head>
 <body>
