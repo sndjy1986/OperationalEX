@@ -79,19 +79,19 @@
     ],
     "Level_Movement": {
         "1": [
-            "Zone A"
+            "HEADQUARTERS"
         ],
         "2": [
-            "Zone B"
+            "FIRE STATION 1 & LIBERTY HWY"
         ],
         "3": [
-            "Zone C"
+            "ROCK SPRINGS & WEST ANDERSON & WHITE PLAINS"
         ],
         "4": [
-            "Zone D"
+            "ROCK SPRINGS & WEST ANDERSON & WHITE PLAINS & 76/WELPINE"
         ],
         "5": [
-            "Zone E"
+            "ROCK SPRINGS & WEST ANDERSON & WHITE PLAINS & 76/WELPINE & 81/FRED DEAN"
         ],
         "6": [
             "Zone F"
