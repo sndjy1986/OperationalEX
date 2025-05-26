@@ -1,5 +1,7 @@
 {
   "trucks": [
+    {"id": "Alpha 5", "location": "Centerville"},
+    {"id": "Alpha 8", "location": "City // HQ"},
     {"id": "Medic 0", "location": "City // HQ"},
     {"id": "Medic 1", "location": "City // HQ"},
     {"id": "Medic 2", "location": "Rock Springs"},
