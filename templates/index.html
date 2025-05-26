@@ -111,7 +111,7 @@ body.dark-mode {
 <h1>Medshore Dispatch Dashboard</h1>
 <!-- System Status Box -->
 <div class="status-box {% if available_trucks <= 3 %}blink-red{% endif %}" id="statusBox">
-        System Status Level: {{ available_trucks }} Truck(s) Available
+        System Level: {{ available_trucks }} Truck(s) Available
     </div>
 <p><a href="{{ url_for('availability') }}">Manage Availability</a> |
        <a href="/admin">Admin Console</a></p>
@@ -126,7 +126,7 @@ body.dark-mode {
         </select>
 <button type="submit">Dispatch</button>
 </form>
-<h2>Truck Status</h2>
+<h2>Truck Status:</h2>
 <ul>
         {% for truck in trucks %}
             {% if status[truck.id] != "unavailable" %}
